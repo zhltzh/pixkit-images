@@ -4,6 +4,7 @@ import { ChangeEvent, DragEvent, PointerEvent, useEffect, useMemo, useRef, useSt
 import Link from "next/link";
 import { absoluteUrl } from "./site-config";
 import { homeContent, toolContent, type ToolId } from "./tool-content";
+import { taskPages } from "./task-content";
 
 type SourceItem = {
   id: string;
@@ -20,7 +21,7 @@ type SourceItem = {
   message?: string;
 };
 
-type Format = "original" | "image/jpeg" | "image/png" | "image/webp" | "image/avif";
+export type Format = "original" | "image/jpeg" | "image/png" | "image/webp" | "image/avif";
 type CropRatio = "none" | "custom" | "1:1" | "4:3" | "3:4" | "16:9" | "9:16";
 type CropFocus = "top-left" | "top" | "top-right" | "left" | "center" | "right" | "bottom-left" | "bottom" | "bottom-right";
 type Tool = ToolId;
@@ -169,9 +170,9 @@ function triggerDownload(url: string, name: string) {
   anchor.remove();
 }
 
-export function ImageWorkbench({ initialTool = "format", homePage = false }: { initialTool?: Tool; homePage?: boolean } = {}) {
+export function ImageWorkbench({ initialTool = "format", initialFormat = "image/webp", homePage = false, pageContent }: { initialTool?: Tool; initialFormat?: Format; homePage?: boolean; pageContent?: typeof homeContent } = {}) {
   const [items, setItems] = useState<SourceItem[]>([]);
-  const [format, setFormat] = useState<Format>("image/webp");
+  const [format, setFormat] = useState<Format>(initialFormat);
   const [compressFormat, setCompressFormat] = useState<Format>("original");
   const [quality, setQuality] = useState(82);
   const [resize, setResize] = useState(false);
@@ -193,6 +194,7 @@ export function ImageWorkbench({ initialTool = "format", homePage = false }: { i
   const [watermarkOpacity, setWatermarkOpacity] = useState(70);
   const [watermarkScale, setWatermarkScale] = useState(22);
   const [activeTool, setActiveTool] = useState<Tool>(initialTool);
+  const [customContent, setCustomContent] = useState(pageContent);
   const [showHomeContent, setShowHomeContent] = useState(homePage);
   const [busy, setBusy] = useState(false);
   const [zipBusy, setZipBusy] = useState(false);
@@ -675,6 +677,7 @@ export function ImageWorkbench({ initialTool = "format", homePage = false }: { i
       return;
     }
     setActiveTool(tool);
+    setCustomContent(undefined);
     setShowHomeContent(false);
     const content = toolContent[tool];
     window.history.replaceState(null, "", `/tools/${content.slug}`);
@@ -689,7 +692,7 @@ export function ImageWorkbench({ initialTool = "format", homePage = false }: { i
     { id: "crop", icon: "⌗", title: "裁剪旋转", description: "统一比例与图片方向", tag: "编辑" },
     { id: "brand", icon: "A", title: "水印命名", description: "添加水印并整理文件名", tag: "更多" },
   ];
-  const activeContent = showHomeContent ? homeContent : toolContent[activeTool];
+  const activeContent = customContent || (showHomeContent ? homeContent : toolContent[activeTool]);
 
   return (
     <main>
@@ -1196,9 +1199,18 @@ export function ImageWorkbench({ initialTool = "format", homePage = false }: { i
             ))}
           </div>
         </nav>
+        <nav className="task-pages" aria-label="常用图片处理任务">
+          <div><span>常用任务</span><h2>直接完成具体图片任务</h2></div>
+          <div>
+            {taskPages.filter((page) => page.tool === activeTool).slice(0, 8).map((page) => (
+              <a href={`/tools/${page.slug}`} key={page.slug}>{page.content.title}<span aria-hidden="true">→</span></a>
+            ))}
+          </div>
+        </nav>
       </section>
       <footer>
         <span>Pixkit · <a href="https://aixuno.com">AIXUNO 旗下图片工具</a></span>
+        <nav aria-label="站点信息"><a href="/about">关于</a><a href="/privacy">隐私</a><a href="/changelog">更新记录</a></nav>
         <span>隐私优先 · 浏览器本地处理</span>
       </footer>
       <script
@@ -1213,11 +1225,7 @@ export function ImageWorkbench({ initialTool = "format", homePage = false }: { i
               operatingSystem: "Any",
               browserRequirements: "Requires a modern browser with Canvas support",
               offers: { "@type": "Offer", price: "0", priceCurrency: "CNY" },
-              publisher: {
-                "@type": "Organization",
-                name: "AIXUNO",
-                url: "https://aixuno.com",
-              },
+              publisher: { "@id": "https://aixuno.com/#organization" },
               url: absoluteUrl(showHomeContent ? "/" : `/tools/${activeContent.slug}`),
               description: activeContent.description,
               featureList: ["JPG PNG WebP AVIF 格式转换", "导入 BMP ICO SVG", "批量压缩", "批量调整尺寸", "裁剪、旋转与翻转", "添加文字与图片水印", "批量重命名", "ZIP 下载"],

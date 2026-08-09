@@ -42,7 +42,36 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>
+        {children}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://aixuno.com/#organization",
+              name: "AIXUNO",
+              url: "https://aixuno.com",
+              subOrganization: { "@id": `${SITE_URL}/#organization` },
+            },
+            {
+              "@type": "Organization",
+              "@id": `${SITE_URL}/#organization`,
+              name: "Pixkit",
+              url: SITE_URL,
+              parentOrganization: { "@id": "https://aixuno.com/#organization" },
+            },
+            {
+              "@type": "WebSite",
+              "@id": `${SITE_URL}/#website`,
+              name: "Pixkit",
+              url: SITE_URL,
+              inLanguage: "zh-CN",
+              publisher: { "@id": `${SITE_URL}/#organization` },
+            },
+          ],
+        }) }} />
+      </body>
     </html>
   );
 }

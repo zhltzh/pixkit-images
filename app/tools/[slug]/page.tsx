@@ -3,20 +3,22 @@ import { notFound } from "next/navigation";
 import { absoluteUrl } from "../../site-config";
 import { ImageWorkbench } from "../../workbench";
 import { toolContent, toolIdFromSlug, toolIds } from "../../tool-content";
+import { taskPageFromSlug, taskPages } from "../../task-content";
 
 type ToolPageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export function generateStaticParams() {
-  return toolIds.map((id) => ({ slug: toolContent[id].slug }));
+  return [...toolIds.map((id) => ({ slug: toolContent[id].slug })), ...taskPages.map((page) => ({ slug: page.slug }))];
 }
 
 export async function generateMetadata({ params }: ToolPageProps): Promise<Metadata> {
   const { slug } = await params;
   const toolId = toolIdFromSlug(slug);
-  if (!toolId) return {};
-  const content = toolContent[toolId];
+  const taskPage = taskPageFromSlug(slug);
+  if (!toolId && !taskPage) return {};
+  const content = toolId ? toolContent[toolId] : taskPage!.content;
   const canonical = absoluteUrl(`/tools/${content.slug}`);
 
   return {
@@ -42,6 +44,8 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
 export default async function ToolPage({ params }: ToolPageProps) {
   const { slug } = await params;
   const toolId = toolIdFromSlug(slug);
-  if (!toolId) notFound();
-  return <ImageWorkbench initialTool={toolId} />;
+  const taskPage = taskPageFromSlug(slug);
+  if (!toolId && !taskPage) notFound();
+  if (taskPage) return <ImageWorkbench initialTool={taskPage.tool} initialFormat={taskPage.initialFormat} pageContent={taskPage.content} />;
+  return <ImageWorkbench initialTool={toolId!} />;
 }

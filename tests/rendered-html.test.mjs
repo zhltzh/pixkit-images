@@ -77,6 +77,34 @@ test("server-renders the crop page with positioning and flip guidance", async ()
   assert.doesNotMatch(html, /当前采用居中裁剪/);
 });
 
+test("server-renders useful task pages with unique intent and working tools", async () => {
+  const [jpgToWebp, squareCrop] = await Promise.all([
+    render("/tools/jpg-to-webp"),
+    render("/tools/crop-image-square"),
+  ]);
+  assert.equal(jpgToWebp.status, 200);
+  assert.equal(squareCrop.status, 200);
+  const convertHtml = await jpgToWebp.text();
+  const cropHtml = await squareCrop.text();
+  assert.match(convertHtml, /批量将 JPG 转换为 WebP/);
+  assert.match(convertHtml, /为什么把 JPG 转换为 WebP/);
+  assert.match(convertHtml, /页面已默认选择 WebP/);
+  assert.match(cropHtml, /批量将图片裁剪为 1:1 方形/);
+  assert.match(cropHtml, /九个保留位置/);
+});
+
+test("publishes brand, privacy and change information", async () => {
+  const [about, privacy, changelog] = await Promise.all([
+    render("/about"), render("/privacy"), render("/changelog"),
+  ]);
+  assert.equal(about.status, 200);
+  assert.equal(privacy.status, 200);
+  assert.equal(changelog.status, 200);
+  assert.match(await about.text(), /Pixkit 是 AIXUNO 旗下/);
+  assert.match(await privacy.text(), /图片无需提交到 Pixkit 服务器/);
+  assert.match(await changelog.text(), /2026-08-09/);
+});
+
 test("returns a not-found response for an unknown tool route", async () => {
   const response = await render("/tools/not-a-real-tool");
   assert.equal(response.status, 404);
@@ -102,10 +130,14 @@ test("exposes the install manifest and crawler discovery files", async () => {
 
   assert.equal(robots.status, 200);
   assert.match(await robots.text(), /https:\/\/image\.aixuno\.com\/sitemap\.xml/);
+  assert.match(await render("/robots.txt").then((response) => response.text()), /OAI-SearchBot/);
 
   assert.equal(sitemap.status, 200);
   const sitemapBody = await sitemap.text();
   assert.match(sitemapBody, /image-format-converter/);
   assert.match(sitemapBody, /batch-image-compressor/);
   assert.match(sitemapBody, /batch-image-watermark-rename/);
+  assert.match(sitemapBody, /jpg-to-webp/);
+  assert.match(sitemapBody, /crop-image-square/);
+  assert.match(sitemapBody, /\/about/);
 });
