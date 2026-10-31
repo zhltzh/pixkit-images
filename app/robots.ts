@@ -8,7 +8,21 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       { userAgent: "*", allow: "/" },
-      { userAgent: "OAI-SearchBot", allow: "/" },
+      ...[
+        "GPTBot",
+        "OAI-SearchBot",
+        "ChatGPT-User",
+        "ClaudeBot",
+        "Claude-SearchBot",
+        "Claude-User",
+        "PerplexityBot",
+        "Perplexity-User",
+        "Google-Extended",
+        "Applebot-Extended",
+        "CCBot",
+        "Amazonbot",
+        "Meta-ExternalAgent",
+      ].map((userAgent) => ({ userAgent, allow: "/" })),
     ],
     sitemap: absoluteUrl("/sitemap.xml"),
     host: absoluteUrl("/"),
