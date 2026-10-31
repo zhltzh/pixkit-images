@@ -7,7 +7,7 @@ import { taskPages } from "./task-content";
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-08-09T00:00:00+08:00");
+  const lastModified = new Date("2026-11-01T00:00:00+08:00");
   return [
     {
       url: absoluteUrl("/"),
