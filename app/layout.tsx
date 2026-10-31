@@ -31,7 +31,15 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     alternates: { canonical: base },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
-    openGraph: { title, description, type: "website", images: [{ url: new URL("/og.png", base), width: 1536, height: 1024 }] },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      siteName: "Pixkit",
+      locale: "zh_CN",
+      url: base,
+      images: [{ url: new URL("/og.png", base), width: 1536, height: 1024 }],
+    },
     twitter: { card: "summary_large_image", title, description, images: [new URL("/og.png", base)] },
   };
 }

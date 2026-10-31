@@ -29,6 +29,8 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
       title: `${content.metaTitle}｜Pixkit`,
       description: content.description,
       type: "website",
+      siteName: "Pixkit",
+      locale: "zh_CN",
       url: canonical,
       images: [{ url: absoluteUrl("/og.png"), width: 1536, height: 1024 }],
     },
