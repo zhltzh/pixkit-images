@@ -1,0 +1,39 @@
+# Aixuno Image — Image Tools
+
+> Free browser-based image toolkit: convert, compress, resize, crop, rotate and watermark images. Images are processed locally in the browser and are never uploaded to an Aixuno server.
+
+## Site
+
+- Name: Aixuno Image
+- Homepage: https://image.aixuno.com/
+- Purpose: edit and convert images without uploading them
+- All tools: https://image.aixuno.com/tools/
+
+## Tools
+
+- Image format converter: https://image.aixuno.com/tools/image-format-converter/
+- Batch image compressor: https://image.aixuno.com/tools/batch-image-compressor/
+- Batch image resizer: https://image.aixuno.com/tools/batch-image-resizer/
+- Batch crop and rotate: https://image.aixuno.com/tools/batch-image-crop-rotate/
+- Batch watermark and rename: https://image.aixuno.com/tools/batch-image-watermark-rename/
+- Compress JPG: https://image.aixuno.com/tools/compress-jpg/
+- Crop to square: https://image.aixuno.com/tools/crop-image-square/
+- JPG to PNG: https://image.aixuno.com/tools/jpg-to-png/
+- JPG to WebP: https://image.aixuno.com/tools/jpg-to-webp/
+- PNG to JPG: https://image.aixuno.com/tools/png-to-jpg/
+- PNG to WebP: https://image.aixuno.com/tools/png-to-webp/
+- WebP to JPG: https://image.aixuno.com/tools/webp-to-jpg/
+- WebP to PNG: https://image.aixuno.com/tools/webp-to-png/
+
+## Key facts
+
+- Conversion runs on the user's device; images never leave the browser.
+- Batch processing is supported with no count limit.
+- Free, no account required, no watermark on output.
+
+## Related Aixuno sites
+
+- https://aixuno.com — Markdown and document conversion
+- https://compress.aixuno.com — file compressor
+- https://pdf.aixuno.com — PDF tools
+- https://bg.aixuno.com — background removal
