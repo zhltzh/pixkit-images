@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import { SITE_URL } from "./site-config";
 import "./globals.css";
 
@@ -9,12 +8,9 @@ export const viewport: Viewport = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const forwardedHost = requestHeaders.get("x-forwarded-host");
-  const forwardedProtocol = requestHeaders.get("x-forwarded-proto");
-  const base = forwardedHost
-    ? new URL(`${forwardedProtocol || "https"}://${forwardedHost}`)
-    : new URL(SITE_URL);
+  // Static export has no request headers, so the canonical base comes from the
+  // configured site URL instead of x-forwarded-host.
+  const base = new URL(SITE_URL);
   const title = "Pixkit — 批量图片转换、压缩与尺寸调整";
   const description = "免费的浏览器本地批量图片工具，支持 JPG、PNG、WebP、AVIF 转换，并可导入 BMP、ICO、SVG 进行压缩、裁剪、尺寸调整和水印处理。";
   return {

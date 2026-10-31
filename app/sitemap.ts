@@ -3,6 +3,9 @@ import { absoluteUrl } from "./site-config";
 import { toolContent, toolIds } from "./tool-content";
 import { taskPages } from "./task-content";
 
+// Static export: this metadata route is emitted as a plain file at build time.
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date("2026-08-09T00:00:00+08:00");
   return [

@@ -133,8 +133,8 @@ function u32(value: number) {
 
 async function makeZip(files: { name: string; blob: Blob }[]) {
   const encoder = new TextEncoder();
-  const chunks: Uint8Array[] = [];
-  const central: Uint8Array[] = [];
+  const chunks: Uint8Array<ArrayBuffer>[] = [];
+  const central: Uint8Array<ArrayBuffer>[] = [];
   let offset = 0;
   for (const file of files) {
     const name = encoder.encode(file.name);

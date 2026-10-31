@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 
+// Static export: this metadata route is emitted as a plain file at build time.
+export const dynamic = "force-static";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Pixkit — 本地批量图片工具",
