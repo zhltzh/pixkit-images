@@ -1,3 +1,5 @@
+import { ShareLinks } from "./share-links";
+
 const SITES = [
   { href: "https://aixuno.com/", mark: "MD", label: "Markdown 转换" },
   { href: "https://compress.aixuno.com/", mark: "ZIP", label: "文件压缩" },
@@ -8,7 +10,9 @@ const SITES = [
 // Cross-site entry points so visitors can reach the sibling Aixuno tools.
 export function SiteNetwork() {
   return (
-    <nav aria-label="AIXUNO 工具" className="mx-auto mt-12 w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
+    <>
+      <ShareLinks />
+      <nav aria-label="AIXUNO 工具" className="mx-auto mt-6 w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
       <ul className="flex flex-wrap items-center justify-center gap-2 text-xs">
         {SITES.map((site) => (
           <li key={site.href}>
@@ -37,5 +41,6 @@ export function SiteNetwork() {
         </a>
       </p>
     </nav>
+    </>
   );
 }
