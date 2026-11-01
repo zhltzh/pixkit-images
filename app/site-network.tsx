@@ -22,6 +22,20 @@ export function SiteNetwork() {
           </li>
         ))}
       </ul>
+      <p className="mt-3 text-center text-xs text-gray-400">
+        <a
+          href="https://github.com/zhltzh/pixkit-images/issues/new"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline-offset-2 hover:text-gray-700 hover:underline"
+        >
+          意见反馈
+        </a>
+        <span className="mx-1.5">·</span>
+        <a href="/privacy" className="underline-offset-2 hover:text-gray-700 hover:underline">
+          隐私说明
+        </a>
+      </p>
     </nav>
   );
 }
