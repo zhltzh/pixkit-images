@@ -743,7 +743,8 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
         </div>
       </section>
 
-      <section className="workbench" id="workspace">
+      <section className="tool-shot" aria-label="批量处理界面预览"><div className="tool-shot-inner"><img src="/batch-interface.webp" alt="批量处理界面：五张图片同时导入，显示各自的尺寸与体积，以及压缩后的总体积" width="2368" height="1568" loading="lazy" decoding="async" /><p>一次导入多张图片，每张的尺寸和体积都能看到，压缩前后对比一目了然。</p></div></section>
+        <section className="workbench" id="workspace">
         <input ref={inputRef} type="file" accept={acceptedInputTypes} multiple disabled={locked} onChange={onChoose} hidden />
         <input
           ref={(node) => {
