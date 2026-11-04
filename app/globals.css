@@ -62,11 +62,11 @@ nav { display: flex; align-items: center; gap: 28px; font-size: 13px; font-weigh
 .tool-card { width:100%; min-width:0; min-height:94px; text-align:left; padding:12px; display:grid; grid-template-columns:30px 1fr; grid-template-rows:auto auto 1fr; column-gap:9px; align-items:center; position:relative; background:#fff; border:1px solid #d5dbd6; border-radius:11px; color:var(--ink); cursor:pointer; transition:.2s; }
 .tool-card:hover { transform:translateY(-3px); border-color:#9dbb43; box-shadow:0 14px 30px rgba(38,52,43,.09); }
 .tool-card.active { background:var(--lime); border-color:#a9de20; box-shadow:0 12px 28px rgba(146,190,28,.17); }
-.tool-card-tag { position:absolute; right:11px; top:11px; padding:4px 7px; border-radius:99px; background:#eef1ed; color:#69736d; font:700 8px/1 ui-monospace,monospace; }
+.tool-card-tag { position:absolute; right:11px; top:11px; padding:4px 8px; border-radius:99px; background:#eef1ed; color:#69736d; font:700 10px/1 ui-monospace,monospace; }
 .tool-card.active .tool-card-tag { background:rgba(16,24,32,.1); color:#34402d; }
 .tool-card > b { grid-row:1/3; display:grid; place-items:center; width:30px; height:30px; border-radius:8px; background:var(--ink); color:var(--lime); font-size:15px; }
-.tool-card > strong { grid-column:2; font-size:12px; padding-right:32px; }
-.tool-card > small { grid-column:2; color:var(--muted); font-size:8px; line-height:1.4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tool-card > strong { grid-column:2; font-size:14px; line-height:1.35; padding-right:32px; }
+.tool-card > small { grid-column:2; color:var(--muted); font-size:12px; line-height:1.4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .tool-card:nth-child(1).active { background:var(--lime); border-color:#a9de20; }
 .tool-card:nth-child(2).active { background:var(--orange); border-color:#e95319; color:#fff; }
 .tool-card:nth-child(2).active small, .tool-card:nth-child(2).active .tool-card-tag { color:#fff; }
@@ -377,7 +377,7 @@ input[type="range"] { accent-color:#83ad00; }
 .task-pages > div:first-child span { color:var(--orange); font:750 9px/1 ui-monospace,monospace; letter-spacing:.12em; }
 .task-pages h2 { margin:0; font-size:19px; }
 .task-pages > div:last-child { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
-.task-pages a { min-height:48px; padding:11px 13px; display:flex; align-items:center; justify-content:space-between; gap:8px; border:1px solid var(--line); border-radius:10px; background:#fbfcf9; font-size:10px; font-weight:750; transition:.2s; }
+.task-pages a { min-height:52px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px; border:1px solid var(--line); border-radius:10px; background:#fbfcf9; font-size:14px; font-weight:700; white-space:nowrap; transition:.2s; }
 .task-pages a:hover { transform:translateY(-2px); border-color:#a7c84a; background:rgba(201,255,67,.1); }
 footer { max-width:1184px; margin:auto; padding:28px; border-top:1px solid #cbd1cc; display:flex; align-items:center; justify-content:space-between; gap:18px; color:var(--muted); font-size:11px; }
 footer nav { display:flex; gap:14px; }
@@ -438,7 +438,7 @@ footer a { text-decoration:underline; text-underline-offset:3px; }
   .section-intro p { display:none; }
   .tool-card { min-height:74px; padding:8px 4px; display:flex; flex-direction:column; justify-content:center; gap:5px; text-align:center; border-radius:9px; }
   .tool-card > b { width:27px; height:27px; flex:0 0 auto; font-size:13px; }
-  .tool-card > strong { padding:0; font-size:10px; line-height:1.15; white-space:nowrap; }
+  .tool-card > strong { padding:0; font-size:12px; line-height:1.2; }
   .tool-card > small, .tool-card-tag { display:none; }
   .workbench { margin:0 10px 48px; border-radius:16px; }
   .workbench-top, .settings-head { padding:20px 16px 15px; }
@@ -484,7 +484,8 @@ footer a { text-decoration:underline; text-underline-offset:3px; }
   .seo-lead h2 { font-size:23px; }
   .seo-grid { grid-template-columns:1fr; gap:16px; }
   .related-tools > div:last-child { grid-template-columns:1fr; }
-  .task-pages > div:last-child { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .task-pages > div:last-child { grid-template-columns:1fr; }
+  .task-pages a { min-height:44px; padding:10px 14px; font-size:13px; gap:8px; }
   .info-card { margin:22px auto 44px; padding:30px 22px; }
   .info-card .breadcrumb { margin-bottom:32px; }
   .not-found-card { margin:36px auto; padding:32px 22px; }
