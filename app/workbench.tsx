@@ -686,11 +686,11 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
   }
 
   const tools: { id: Tool; icon: string; title: string; description: string; tag: string }[] = [
-    { id: "format", icon: "↻", title: "格式转换", description: "JPG、PNG、WebP、AVIF 互转", tag: "默认" },
-    { id: "compress", icon: "⌁", title: "批量压缩", description: "更小体积，保持清晰", tag: "常用" },
-    { id: "resize", icon: "↔", title: "调整尺寸", description: "等比例统一图片宽度", tag: "批量" },
-    { id: "crop", icon: "⌗", title: "裁剪旋转", description: "统一比例与图片方向", tag: "编辑" },
-    { id: "brand", icon: "A", title: "水印命名", description: "添加水印并整理文件名", tag: "更多" },
+    { id: "format", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 9V6.5A2.5 2.5 0 0 1 6.5 4H17"/><path d="m14 1.5 3 2.5-3 2.5"/><path d="M20 15v2.5A2.5 2.5 0 0 1 17.5 20H7"/><path d="m10 22.5-3-2.5 3-2.5"/></svg>', title: "格式转换", description: "JPG、PNG、WebP、AVIF 互转", tag: "默认" },
+    { id: "compress", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v9"/><path d="m8 9 4 4 4-4"/><path d="M5 17h14"/><path d="M5 21h14"/></svg>', title: "批量压缩", description: "更小体积，保持清晰", tag: "常用" },
+    { id: "resize", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 9V5a2 2 0 0 1 2-2h4"/><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M21 15v4a2 2 0 0 1-2 2h-4"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/></svg>', title: "调整尺寸", description: "等比例统一图片宽度", tag: "批量" },
+    { id: "crop", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 2v13a3 3 0 0 0 3 3h13"/><path d="M2 6h13a3 3 0 0 1 3 3v13"/></svg>', title: "裁剪旋转", description: "统一比例与图片方向", tag: "编辑" },
+    { id: "brand", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2.5c3.6 4.2 6 7 6 9.8a6 6 0 0 1-12 0c0-2.8 2.4-5.6 6-9.8Z"/><path d="M9.5 13.5h5"/></svg>', title: "水印命名", description: "添加水印并整理文件名", tag: "更多" },
   ];
   const activeContent = customContent || (showHomeContent ? homeContent : toolContent[activeTool]);
 
@@ -735,7 +735,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
               }}
             >
               <span className="tool-card-tag">{tool.tag}</span>
-              <b>{tool.icon}</b>
+              <b dangerouslySetInnerHTML={{ __html: tool.icon }} />
               <strong>{tool.title}</strong>
               <small>{tool.description}</small>
             </a>

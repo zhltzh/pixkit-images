@@ -65,6 +65,7 @@ nav { display: flex; align-items: center; gap: 28px; font-size: 13px; font-weigh
 .tool-card-tag { position:absolute; right:11px; top:11px; padding:4px 8px; border-radius:99px; background:#eef1ed; color:#69736d; font:700 11px/1 ui-monospace,monospace; }
 .tool-card.active .tool-card-tag { background:rgba(16,24,32,.1); color:#34402d; }
 .tool-card > b { grid-row:1/3; display:grid; place-items:center; width:30px; height:30px; border-radius:8px; background:var(--ink); color:var(--lime); font-size:15px; }
+.tool-card > b svg { display:block; width:17px; height:17px; }
 .tool-card > strong { grid-column:2; font-size:14px; line-height:1.35; padding-right:32px; }
 .tool-card > small { grid-column:2; color:var(--muted); font-size:12px; line-height:1.4; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .tool-card:nth-child(1).active { background:var(--lime); border-color:#a9de20; }
