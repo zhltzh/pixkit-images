@@ -1,4 +1,5 @@
 import { ShareLinks } from "./share-links";
+import { ContactEmail } from "./contact-email";
 
 type SiteId = "markdown" | "image" | "compress" | "pdf" | "bg";
 
@@ -69,13 +70,18 @@ export function SiteUtilityLinks() {
     <div className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
       <ShareLinks />
       <p className="mt-3 text-center text-xs text-gray-400">
+        <ContactEmail
+          label="邮件反馈"
+          className="underline-offset-2 hover:text-gray-700 hover:underline"
+        />
+        <span className="mx-1.5">·</span>
         <a
           href="https://github.com/zhltzh/pixkit-images/issues/new"
           target="_blank"
           rel="noopener noreferrer"
           className="underline-offset-2 hover:text-gray-700 hover:underline"
         >
-          意见反馈
+          GitHub
         </a>
         <span className="mx-1.5">·</span>
         <a href="/privacy" className="underline-offset-2 hover:text-gray-700 hover:underline">
