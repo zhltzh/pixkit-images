@@ -76,6 +76,30 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               inLanguage: "zh-CN",
               publisher: { "@id": `${SITE_URL}/#organization` },
             },
+            {
+              "@type": "SoftwareApplication",
+              "@id": `${SITE_URL}/#app`,
+              name: "Pixkit",
+              url: SITE_URL,
+              applicationCategory: "MultimediaApplication",
+              operatingSystem: "Any",
+              offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+              featureList: [
+                "图片格式转换（JPG、PNG、WebP）",
+                "批量图片压缩",
+                "批量图片缩放",
+                "批量裁剪与旋转",
+                "批量加水印与重命名",
+              ],
+              isAccessibleForFree: true,
+              screenshot: {
+                "@type": "ImageObject",
+                url: `${SITE_URL}/screenshot.png`,
+                width: 1280,
+                height: 800,
+              },
+              publisher: { "@id": `${SITE_URL}/#organization` },
+            },
           ],
         }) }} />
       </body>
