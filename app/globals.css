@@ -491,6 +491,14 @@ footer a { text-decoration:underline; text-underline-offset:3px; }
   .not-found-tools { grid-template-columns:1fr; }
   footer { flex-direction:column; gap:8px; }
 }
+@media (max-width: 760px) {
+  .card-meta span, .error-message, .workspace-toolbar small, .crop-stage footer span,
+  .result-estimate small, .editor-action-status small, .format-hints small,
+  .format-strip small, .related-tools small, .crop-focus-setting small { font-size:11px; line-height:1.5; }
+  .tool-card > small { font-size:10px; line-height:1.45; }
+  .home-intro > span, .result-estimate > span, .related-tools > div:first-child span { font-size:10px; }
+  .site-network__inner, [class*="overflow-x-auto"] { -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent); mask-image:linear-gradient(90deg,#000 88%,transparent); }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
