@@ -64,6 +64,7 @@ const supportedMimeTypes = new Set([
   "image/svg+xml",
 ]);
 const acceptedInputTypes = ".jpg,.jpeg,.png,.webp,.avif,.bmp,.ico,.svg";
+const MAX_IMAGES = 50;
 
 function prettyBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`;
@@ -388,11 +389,16 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
 
   async function addFiles(list: FileList | File[]) {
     if (lockedRef.current) return;
+    const remaining = MAX_IMAGES - itemsRef.current.length;
+    if (remaining <= 0) {
+      setNotice({ tone: "warning", text: `最多同时处理 ${MAX_IMAGES} 张图片，请先处理或移除部分图片后再添加。` });
+      return;
+    }
     const incoming = Array.from(list);
     const unsupportedCount = incoming.filter((file) => !isSupportedImage(file)).length;
     const existing = new Set(itemsRef.current.map((item) => sourceKey(item.file)));
     let duplicateCount = 0;
-    const files = incoming.filter((file) => {
+    let files = incoming.filter((file) => {
       if (!isSupportedImage(file)) return false;
       const key = sourceKey(file);
       if (existing.has(key)) {
@@ -402,6 +408,8 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
       existing.add(key);
       return true;
     });
+    const overCount = Math.max(0, files.length - remaining);
+    if (overCount) files = files.slice(0, remaining);
     const loaded = await Promise.all(files.map(async (file, index) => {
       try {
         const image = await loadBitmap(file);
@@ -422,11 +430,11 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     const largeCount = valid.filter((item) => item.file.size > 30 * 1024 * 1024 || item.width * item.height > 40_000_000).length;
     setItems((current) => [...current, ...valid]);
     if (!activeItemId && valid[0]) setActiveItemId(valid[0].id);
-    const skipped = duplicateCount + unsupportedCount + failedCount;
+    const skipped = duplicateCount + unsupportedCount + failedCount + overCount;
     if (largeCount) {
-      setNotice({ tone: "warning", text: `已添加 ${valid.length} 张图片，其中 ${largeCount} 张为大图，处理时可能需要更长时间和更多内存。${skipped ? `另有 ${skipped} 个文件未加入。` : ""}` });
+      setNotice({ tone: "warning", text: `已添加 ${valid.length} 张图片，其中 ${largeCount} 张为大图，处理时可能需要更长时间和更多内存。${skipped ? `另有 ${skipped} 个文件未加入。` : ""}${overCount ? `最多 ${MAX_IMAGES} 张，已忽略 ${overCount} 张图片。` : ""}` });
     } else if (skipped) {
-      setNotice({ tone: "warning", text: `已添加 ${valid.length} 张图片；跳过 ${duplicateCount} 张重复图片、${unsupportedCount} 个不支持的文件${failedCount ? `，另有 ${failedCount} 张当前浏览器无法读取` : ""}。` });
+      setNotice({ tone: "warning", text: `已添加 ${valid.length} 张图片；跳过 ${duplicateCount} 张重复图片、${unsupportedCount} 个不支持的文件${failedCount ? `，另有 ${failedCount} 张当前浏览器无法读取` : ""}${overCount ? `；最多 ${MAX_IMAGES} 张，已忽略 ${overCount} 张图片` : ""}。` });
     } else if (valid.length) {
       setNotice(null);
     } else {
@@ -646,6 +654,14 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     }
     setBusy(false);
     lockedRef.current = false;
+    // 处理完成后把「下载」按钮滚入视野，避免下载按钮落在第二屏
+    if (successCount) {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          document.querySelector(".editor-action-panel")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }, 80);
+      });
+    }
     setNotice({
       tone: failureCount ? "warning" : "info",
       text: failureCount
