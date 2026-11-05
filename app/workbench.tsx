@@ -432,6 +432,15 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     } else {
       setNotice({ tone: "warning", text: "没有找到可读取的新图片，请检查文件格式后重试。" });
     }
+
+    // 文件加入后把「开始处理」按钮滚入视野，避免操作按钮落在第二三屏
+    if (valid.length) {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          document.querySelector(".editor-start")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 120);
+      });
+    }
   }
 
   function onChoose(event: ChangeEvent<HTMLInputElement>) {
@@ -743,7 +752,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
         </div>
       </section>
 
-      <section className="tool-shot" aria-label="批量处理界面预览"><div className="tool-shot-inner"><img src="/batch-interface.webp" alt="批量处理界面：五张图片同时导入，显示各自的尺寸与体积，以及压缩后的总体积" width="2368" height="1568" loading="lazy" decoding="async" /><p>一次导入多张图片，每张的尺寸和体积都能看到，压缩前后对比一目了然。</p></div></section>
+      
         <section className="workbench" id="workspace">
         <input ref={inputRef} type="file" accept={acceptedInputTypes} multiple disabled={locked} onChange={onChoose} hidden />
         <input
@@ -1142,6 +1151,8 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
           </>
         )}
       </section>
+
+      <section className="tool-shot" aria-label="批量处理界面预览"><div className="tool-shot-inner"><img src="/batch-interface.webp" alt="批量处理界面：五张图片同时导入，显示各自的尺寸与体积，以及压缩后的总体积" width="2368" height="1568" loading="lazy" decoding="async" /><p>一次导入多张图片，每张的尺寸和体积都能看到，压缩前后对比一目了然。</p></div></section>
 
       <section className="brand-story" aria-label="Pixkit 本地图片处理">
         <div>
