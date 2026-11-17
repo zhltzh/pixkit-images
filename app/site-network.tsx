@@ -1,7 +1,7 @@
 import { ShareLinks } from "./share-links";
 import { ContactEmail } from "./contact-email";
 
-type SiteId = "markdown" | "image" | "compress" | "pdf" | "bg";
+type SiteId = "markdown" | "image" | "compress" | "pdf" | "bg" | "tools";
 
 const TONE: Record<SiteId, string> = {
   markdown: "from-amber-400 to-orange-500",
@@ -9,6 +9,7 @@ const TONE: Record<SiteId, string> = {
   compress: "from-sky-500 to-emerald-500",
   pdf: "from-rose-500 to-red-500",
   bg: "from-violet-500 to-indigo-500",
+  tools: "from-teal-500 to-cyan-500",
 };
 
 const SITES: { id: SiteId; href: string; mark: string; label: string }[] = [
@@ -17,6 +18,7 @@ const SITES: { id: SiteId; href: string; mark: string; label: string }[] = [
   { id: "compress", href: "https://compress.aixuno.com/", mark: "ZIP", label: "文件压缩" },
   { id: "pdf", href: "https://pdf.aixuno.com/", mark: "PDF", label: "PDF 工具" },
   { id: "bg", href: "https://bg.aixuno.com/", mark: "BG", label: "AI 抠图" },
+  { id: "tools", href: "https://tools.aixuno.com/", mark: "AI", label: "AI 工具箱" },
 ];
 
 const CURRENT: SiteId = "image";
