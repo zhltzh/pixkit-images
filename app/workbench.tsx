@@ -629,15 +629,21 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     let successCount = 0;
     let failureCount = 0;
     let fallbackCount = 0;
+    let keptOriginalCount = 0;
     for (let index = 0; index < items.length; index++) {
       const item = items[index];
       setItems((current) => current.map((entry) => entry.id === item.id ? { ...entry, status: "working", message: undefined } : entry));
       try {
         const { blob, outputName, outputWidth, outputHeight, usedFallback } = await transform(item, index);
+        // 压缩工具的输出若不小于原图（如 PNG 无损重编码可能显著增大），保留原文件更符合用户预期
+        const notSmaller = activeTool === "compress" && blob.size >= item.file.size;
+        const finalBlob = notSmaller ? item.file : blob;
+        const finalName = notSmaller ? item.file.name : outputName;
+        if (notSmaller) keptOriginalCount++;
         setItems((current) => current.map((entry) => {
           if (entry.id !== item.id) return entry;
           if (entry.resultUrl) URL.revokeObjectURL(entry.resultUrl);
-          return { ...entry, status: "done", result: blob, resultUrl: URL.createObjectURL(blob), outputName, outputWidth, outputHeight };
+          return { ...entry, status: "done", result: finalBlob, resultUrl: URL.createObjectURL(finalBlob), outputName: finalName, outputWidth, outputHeight };
         }));
         successCount++;
         if (usedFallback) fallbackCount++;
@@ -666,9 +672,11 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
       tone: failureCount ? "warning" : "info",
       text: failureCount
         ? `已完成 ${successCount} 张，${failureCount} 张处理失败。请查看图片卡片中的原因。`
-        : fallbackCount
-          ? `${successCount} 张图片已完成；其中 ${fallbackCount} 张因原格式仅支持导入或当前浏览器不能编码，已自动输出为兼容格式。`
-          : `${successCount} 张图片已处理完成，可以单张下载或打包下载。`,
+        : keptOriginalCount
+          ? `${successCount} 张图片已完成；其中 ${keptOriginalCount} 张压缩后未变小（多为 PNG 无损格式），已保留原文件。需要更小体积建议选择 WebP 输出。`
+          : fallbackCount
+            ? `${successCount} 张图片已完成；其中 ${fallbackCount} 张因原格式仅支持导入或当前浏览器不能编码，已自动输出为兼容格式。`
+            : `${successCount} 张图片已处理完成，可以单张下载或打包下载。`,
     });
   }
 
