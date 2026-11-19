@@ -795,7 +795,11 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
         {!items.length && (
           <>
             <div className="workbench-top upload-heading">
-              <span className={`task-icon theme-${activeTool}`} aria-hidden="true">{tools.find((tool) => tool.id === activeTool)?.icon}</span>
+              <span
+                className={`task-icon theme-${activeTool}`}
+                aria-hidden="true"
+                dangerouslySetInnerHTML={{ __html: tools.find((tool) => tool.id === activeTool)?.icon ?? "" }}
+              />
               <div>
                 <h2>{activeContent.title}</h2>
                 <p>{activeContent.intro}</p>
@@ -1246,6 +1250,15 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
       </section>
       <footer>
         <span>Pixkit · <a href="https://aixuno.com">AIXUNO 旗下图片工具</a></span>
+        <nav aria-label="Aixuno 站群">
+          <a href="https://aixuno.com/">Markdown 转换</a>
+          <a href="https://compress.aixuno.com/">文件压缩</a>
+          <a href="https://pdf.aixuno.com/">PDF 工具</a>
+          <a href="https://bg.aixuno.com/">AI 抠图</a>
+          <a href="https://scan.aixuno.com/">文档扫描</a>
+          <a href="https://restore.aixuno.com/">老照片修复</a>
+          <a href="https://watermark.aixuno.com/">视频去水印</a>
+        </nav>
         <nav aria-label="站点信息"><a href="/about">关于</a><a href="/privacy">隐私</a><a href="/changelog">更新记录</a></nav>
         <span>隐私优先 · 浏览器本地处理</span>
       </footer>
