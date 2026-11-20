@@ -396,6 +396,7 @@ footer a { text-decoration:underline; text-underline-offset:3px; }
 .info-body p, .info-body li { color:var(--muted); font-size:12px; line-height:1.85; }
 .info-body p { max-width:780px; margin:0; }
 .info-body ul { margin:0; padding-left:20px; }
+.info-body .contact-mail { color:var(--ink); font-weight:650; text-decoration:underline; text-underline-offset:3px; }
 
 .not-found-page { min-height:100vh; }
 .not-found-card { width:calc(100% - 36px); max-width:920px; margin:70px auto; padding:58px; border:1px solid #d3d8d4; border-radius:22px; background:#fff; box-shadow:0 30px 80px rgba(40,54,45,.09); }

@@ -14,7 +14,7 @@ export function InfoPage({ eyebrow, title, intro, children }: { eyebrow: string;
         <p className="info-intro">{intro}</p>
         <div className="info-body">{children}</div>
       </article>
-      <footer><span>Pixkit · AIXUNO 旗下图片工具</span><nav aria-label="Aixuno 站群"><a href="https://aixuno.com/">Markdown 转换</a><a href="https://compress.aixuno.com/">文件压缩</a><a href="https://pdf.aixuno.com/">PDF 工具</a><a href="https://bg.aixuno.com/">AI 抠图</a><a href="https://scan.aixuno.com/">文档扫描</a><a href="https://restore.aixuno.com/">老照片修复</a><a href="https://watermark.aixuno.com/">视频去水印</a></nav><nav><Link href="/about">关于</Link><Link href="/privacy">隐私</Link><Link href="/changelog">更新记录</Link></nav></footer>
+      <footer><span>Pixkit · AIXUNO 旗下图片工具</span><nav aria-label="Aixuno 站群"><a href="https://aixuno.com/">Markdown 转换</a><a href="https://compress.aixuno.com/">文件压缩</a><a href="https://pdf.aixuno.com/">PDF 工具</a><a href="https://bg.aixuno.com/">AI 抠图</a><a href="https://scan.aixuno.com/">文档扫描</a><a href="https://restore.aixuno.com/">老照片修复</a><a href="https://watermark.aixuno.com/">视频去水印</a></nav><nav><Link href="/about">关于</Link><Link href="/contact">联系</Link><Link href="/privacy">隐私</Link><Link href="/terms">条款</Link><Link href="/disclaimer">免责声明</Link><Link href="/changelog">更新记录</Link></nav></footer>
     </main>
   );
 }

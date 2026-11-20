@@ -1259,7 +1259,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
           <a href="https://restore.aixuno.com/">老照片修复</a>
           <a href="https://watermark.aixuno.com/">视频去水印</a>
         </nav>
-        <nav aria-label="站点信息"><a href="/about">关于</a><a href="/privacy">隐私</a><a href="/changelog">更新记录</a></nav>
+        <nav aria-label="站点信息"><a href="/about">关于</a><a href="/contact">联系</a><a href="/privacy">隐私</a><a href="/terms">条款</a><a href="/disclaimer">免责声明</a><a href="/changelog">更新记录</a></nav>
         <span>隐私优先 · 浏览器本地处理</span>
       </footer>
       <script

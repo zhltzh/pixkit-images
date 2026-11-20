@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "Pixkit",
       locale: "zh_CN",
       url: base,
-      images: [{ url: new URL("/og.png", base), width: 1536, height: 1024 }],
+      images: [{ url: new URL("/og.png", base), width: 1200, height: 630 }],
     },
     twitter: { card: "summary_large_image", title, description, images: [new URL("/og.png", base)] },
   };

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: ToolPageProps): Promise<Metad
       siteName: "Pixkit",
       locale: "zh_CN",
       url: canonical,
-      images: [{ url: absoluteUrl("/og.png"), width: 1536, height: 1024 }],
+      images: [{ url: absoluteUrl("/og.png"), width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
