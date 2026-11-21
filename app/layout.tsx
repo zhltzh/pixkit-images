@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   // Static export has no request headers, so the canonical base comes from the
   // configured site URL instead of x-forwarded-host.
   const base = new URL(SITE_URL);
-  const title = "Pixkit — 批量图片转换、压缩与尺寸调整";
+  const title = "Pixkit 批量图片压缩转换 - 免费在线，本地处理不上传";
   const description = "免费的浏览器本地批量图片工具，支持 JPG、PNG、WebP、AVIF 转换，并可导入 BMP、ICO、SVG 进行压缩、裁剪、尺寸调整和水印处理。";
   return {
     metadataBase: base,
