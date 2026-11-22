@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { toolContent, type ToolId } from "./tool-content";
+
+export const metadata: Metadata = {
+  title: "页面未找到 - Pixkit",
+  robots: { index: false, follow: true },
+};
 
 const toolIds: ToolId[] = ["format", "compress", "resize", "crop", "brand"];
 
