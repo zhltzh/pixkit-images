@@ -2,10 +2,29 @@ import type { Metadata } from "next";
 import { InfoPage } from "../info-page";
 import { absoluteUrl } from "../site-config";
 
+const title = "Pixkit 免责声明｜图片处理结果与使用建议";
+const description = "Pixkit 免责声明：处理结果质量、批量操作建议、第三方链接与商标归属说明。";
+const canonical = absoluteUrl("/disclaimer/");
+
 export const metadata: Metadata = {
-  title: "Pixkit 免责声明｜图片处理结果与使用建议",
-  description: "Pixkit 免责声明：处理结果质量、批量操作建议、第三方链接与商标归属说明。",
-  alternates: { canonical: absoluteUrl("/disclaimer") },
+  title,
+  description,
+  alternates: { canonical },
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    siteName: "Pixkit",
+    locale: "zh_CN",
+    url: canonical,
+    images: [{ url: absoluteUrl("/og.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [absoluteUrl("/og.png")],
+  },
 };
 
 export default function DisclaimerPage() {

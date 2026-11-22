@@ -2,10 +2,29 @@ import type { Metadata } from "next";
 import { InfoPage } from "../info-page";
 import { absoluteUrl } from "../site-config";
 
+const title = "Pixkit 更新记录｜批量图片工具版本变化";
+const description = "查看 Pixkit 格式转换、图片压缩、裁剪、水印、SEO 和浏览器本地处理能力的更新记录。";
+const canonical = absoluteUrl("/changelog/");
+
 export const metadata: Metadata = {
-  title: "Pixkit 更新记录｜批量图片工具版本变化",
-  description: "查看 Pixkit 格式转换、图片压缩、裁剪、水印、SEO 和浏览器本地处理能力的更新记录。",
-  alternates: { canonical: absoluteUrl("/changelog") },
+  title,
+  description,
+  alternates: { canonical },
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    siteName: "Pixkit",
+    locale: "zh_CN",
+    url: canonical,
+    images: [{ url: absoluteUrl("/og.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [absoluteUrl("/og.png")],
+  },
 };
 
 export default function ChangelogPage() {

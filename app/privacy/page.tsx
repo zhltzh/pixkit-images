@@ -2,10 +2,29 @@ import type { Metadata } from "next";
 import { InfoPage } from "../info-page";
 import { absoluteUrl } from "../site-config";
 
+const title = "Pixkit 隐私说明｜图片在浏览器本地处理";
+const description = "了解 Pixkit 如何在浏览器本地处理图片、哪些数据不会上传，以及用户使用工具时需要注意的事项。";
+const canonical = absoluteUrl("/privacy/");
+
 export const metadata: Metadata = {
-  title: "Pixkit 隐私说明｜图片在浏览器本地处理",
-  description: "了解 Pixkit 如何在浏览器本地处理图片、哪些数据不会上传，以及用户使用工具时需要注意的事项。",
-  alternates: { canonical: absoluteUrl("/privacy") },
+  title,
+  description,
+  alternates: { canonical },
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    siteName: "Pixkit",
+    locale: "zh_CN",
+    url: canonical,
+    images: [{ url: absoluteUrl("/og.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [absoluteUrl("/og.png")],
+  },
 };
 
 export default function PrivacyPage() {

@@ -3,10 +3,29 @@ import { InfoPage } from "../info-page";
 import { ContactEmail } from "../contact-email";
 import { absoluteUrl } from "../site-config";
 
+const title = "联系我们｜Pixkit 图片工具反馈";
+const description = "向 Pixkit 团队反馈问题、建议功能或提出合作意向，我们通常会在几天内回复。";
+const canonical = absoluteUrl("/contact/");
+
 export const metadata: Metadata = {
-  title: "联系我们｜Pixkit 图片工具反馈",
-  description: "向 Pixkit 团队反馈问题、建议功能或提出合作意向，我们通常会在几天内回复。",
-  alternates: { canonical: absoluteUrl("/contact") },
+  title,
+  description,
+  alternates: { canonical },
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    siteName: "Pixkit",
+    locale: "zh_CN",
+    url: canonical,
+    images: [{ url: absoluteUrl("/og.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [absoluteUrl("/og.png")],
+  },
 };
 
 export default function ContactPage() {

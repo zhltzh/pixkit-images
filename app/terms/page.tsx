@@ -2,10 +2,29 @@ import type { Metadata } from "next";
 import { InfoPage } from "../info-page";
 import { absoluteUrl } from "../site-config";
 
+const title = "Pixkit 使用条款｜免费图片工具服务条款";
+const description = "Pixkit 使用条款：服务的提供方式、用户内容的权利归属、可接受的使用范围与责任限制。";
+const canonical = absoluteUrl("/terms/");
+
 export const metadata: Metadata = {
-  title: "Pixkit 使用条款｜免费图片工具服务条款",
-  description: "Pixkit 使用条款：服务的提供方式、用户内容的权利归属、可接受的使用范围与责任限制。",
-  alternates: { canonical: absoluteUrl("/terms") },
+  title,
+  description,
+  alternates: { canonical },
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    siteName: "Pixkit",
+    locale: "zh_CN",
+    url: canonical,
+    images: [{ url: absoluteUrl("/og.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [absoluteUrl("/og.png")],
+  },
 };
 
 export default function TermsPage() {

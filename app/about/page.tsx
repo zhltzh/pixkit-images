@@ -2,10 +2,29 @@ import type { Metadata } from "next";
 import { InfoPage } from "../info-page";
 import { absoluteUrl } from "../site-config";
 
+const title = "关于 Pixkit｜AIXUNO 旗下本地图片工具";
+const description = "了解 Pixkit 的产品定位、浏览器本地处理方式、支持的图片任务和隐私原则。";
+const canonical = absoluteUrl("/about/");
+
 export const metadata: Metadata = {
-  title: "关于 Pixkit｜AIXUNO 旗下本地图片工具",
-  description: "了解 Pixkit 的产品定位、浏览器本地处理方式、支持的图片任务和隐私原则。",
-  alternates: { canonical: absoluteUrl("/about") },
+  title,
+  description,
+  alternates: { canonical },
+  openGraph: {
+    title,
+    description,
+    type: "website",
+    siteName: "Pixkit",
+    locale: "zh_CN",
+    url: canonical,
+    images: [{ url: absoluteUrl("/og.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [absoluteUrl("/og.png")],
+  },
 };
 
 export default function AboutPage() {
