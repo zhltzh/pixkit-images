@@ -28,7 +28,7 @@ export default function NotFound() {
           返回 Pixkit 首页
         </Link>
 
-        <nav className="not-found-tools" aria-label="Pixkit 图片工具">
+        <nav className="not-found-tools" aria-label="Pixkit 图片批量处理">
           {toolIds.map((id) => {
             const tool = toolContent[id];
             return (

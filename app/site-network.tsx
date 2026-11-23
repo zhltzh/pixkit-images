@@ -16,7 +16,7 @@ const TONE: Record<SiteId, string> = {
 
 const SITES: { id: SiteId; href: string; mark: string; label: string }[] = [
   { id: "markdown", href: "https://aixuno.com/", mark: "MD", label: "Markdown 转换" },
-  { id: "image", href: "https://image.aixuno.com/", mark: "IMG", label: "Pixkit 图片" },
+  { id: "image", href: "https://image.aixuno.com/", mark: "IMG", label: "Pixkit 图片批量处理" },
   { id: "compress", href: "https://compress.aixuno.com/", mark: "ZIP", label: "文件压缩" },
   { id: "pdf", href: "https://pdf.aixuno.com/", mark: "PDF", label: "PDF 工具" },
   { id: "bg", href: "https://bg.aixuno.com/", mark: "BG", label: "AI 抠图" },

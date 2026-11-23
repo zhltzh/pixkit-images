@@ -8,24 +8,9 @@ const description = "向 Pixkit 团队反馈问题、建议功能或提出合作
 const canonical = absoluteUrl("/contact/");
 
 export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical },
-  openGraph: {
-    title,
-    description,
-    type: "website",
-    siteName: "Pixkit",
-    locale: "zh_CN",
-    url: canonical,
-    images: [{ url: absoluteUrl("/og.png"), width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title,
-    description,
-    images: [absoluteUrl("/og.png")],
-  },
+  title: "联系我们｜Pixkit 图片批量处理反馈",
+  description: "向 Pixkit 团队反馈问题、建议功能或提出合作意向，我们通常会在几天内回复。",
+  alternates: { canonical: absoluteUrl("/contact") },
 };
 
 export default function ContactPage() {
