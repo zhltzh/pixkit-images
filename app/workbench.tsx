@@ -1197,7 +1197,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
       <section className="brand-story" aria-label="Pixkit 本地图片处理">
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/og.png" alt="Pixkit 批量图片本地处理流程" />
+          <img src="/og.png" alt="Pixkit 批量图片本地处理流程" width="1200" height="630" loading="lazy" decoding="async" />
         </div>
         <article>
           <span>LOCAL-FIRST IMAGE WORKSPACE</span>
