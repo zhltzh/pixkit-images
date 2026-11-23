@@ -32,7 +32,7 @@ export function SiteNetwork() {
   return (
     <nav aria-label="Aixuno 产品线" className="border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-6xl items-center gap-1.5 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
-        <span className="mr-1 shrink-0 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+        <span className="mr-1 shrink-0 text-xs font-bold uppercase tracking-widest text-gray-400">
           Aixuno
         </span>
         {SITES.map((site) => {
