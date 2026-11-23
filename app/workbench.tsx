@@ -512,6 +512,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     setCropSettingsById({});
     setProcessedCount(0);
     setNotice(null);
+    document.title = "Pixkit 批量图片压缩转换 - 免费在线，本地处理不上传";
   }
 
   async function transform(item: SourceItem, index: number) {
@@ -669,15 +670,18 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
       });
     }
     setNotice({
-      tone: failureCount ? "warning" : "info",
+      tone: failureCount ? "warning" : "success",
       text: failureCount
         ? `已完成 ${successCount} 张，${failureCount} 张处理失败。请查看图片卡片中的原因。`
         : keptOriginalCount
           ? `${successCount} 张图片已完成；其中 ${keptOriginalCount} 张压缩后未变小（多为 PNG 无损格式），已保留原文件。需要更小体积建议选择 WebP 输出。`
           : fallbackCount
             ? `${successCount} 张图片已完成；其中 ${fallbackCount} 张因原格式仅支持导入或当前浏览器不能编码，已自动输出为兼容格式。`
-            : `${successCount} 张图片已处理完成，可以单张下载或打包下载。`,
+            : `${successCount} 张图片处理完成，文件已就绪，点击「下载」即可保存。`,
     });
+    if (successCount && typeof document !== "undefined") {
+      document.title = `✓ ${successCount} 张处理完成 · Pixkit`;
+    }
   }
 
   function downloadOne(item: SourceItem) {
@@ -856,7 +860,16 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
         {notice && (
           <div className={`upload-notice ${notice.tone}`} role="status">
             <span>{notice.text}</span>
-            <button type="button" onClick={() => setNotice(null)} aria-label="关闭提示">×</button>
+            {notice.tone === "success" && done.length > 0 && (
+              <button
+                type="button"
+                className="notice-download"
+                onClick={() => done.length > 1 ? downloadZip() : done[0] && downloadOne(done[0])}
+              >
+                {done.length > 1 ? "打包下载 ZIP ↓" : "下载结果 ↓"}
+              </button>
+            )}
+            <button type="button" onClick={() => { setNotice(null); document.title = "Pixkit 批量图片压缩转换 - 免费在线，本地处理不上传"; }} aria-label="关闭提示">×</button>
           </div>
         )}
 
@@ -1022,8 +1035,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                 <option value="image/avif" disabled={encodingSupport?.avif === false}>AVIF{encodingSupport?.avif === false ? "（当前浏览器不能导出）" : ""}</option>
               </select>
             </label>
-            <div className="format-hints"><span>JPG<small>照片兼容性最好</small></span><span>PNG<small>保留透明背景</small></span><span>WebP<small>体积与质量平衡</small></span><span>AVIF<small>新一代高压缩</small></span></div>
-            {encodingSupport && (!encodingSupport.webp || !encodingSupport.avif) && <p className="compatibility-note">当前浏览器不能编码：{[!encodingSupport.webp && "WebP", !encodingSupport.avif && "AVIF"].filter(Boolean).join("、")}。相关选项已停用，可改用 JPG 或 PNG。</p>}
+            <div className="format-hints"><span>JPG<small>照片兼容性最好</small></span><span>PNG<small>保留透明背景</small></span><span>WebP<small>{encodingSupport?.webp === false ? "当前浏览器不支持" : "体积与质量平衡"}</small></span><span>AVIF<small>{encodingSupport?.avif === false ? "当前浏览器不支持" : "新一代高压缩"}</small></span></div>
           </section>}
 
                 {activeTool === "compress" && <section className="focused-setting">
@@ -1167,7 +1179,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                   {busy && <div className="action-progress" role="progressbar" aria-valuemin={0} aria-valuemax={items.length} aria-valuenow={processedCount}><i style={{ width: `${items.length ? processedCount / items.length * 100 : 0}%` }} /></div>}
                   <button className="button primary editor-start" disabled={locked} onClick={processAll}>{busy ? "正在处理…" : "开始处理 →"}</button>
                   <button
-                    className="button secondary editor-download"
+                    className={`button secondary editor-download${done.length && !busy && notice?.tone === "success" ? " attention" : ""}`}
                     disabled={locked || !done.length}
                     onClick={() => done.length > 1 ? downloadZip() : done[0] && downloadOne(done[0])}
                   >
