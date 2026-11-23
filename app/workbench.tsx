@@ -201,7 +201,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
   const [zipBusy, setZipBusy] = useState(false);
   const [encodingSupport, setEncodingSupport] = useState<{ webp: boolean; avif: boolean } | null>(null);
   const [processedCount, setProcessedCount] = useState(0);
-  const [notice, setNotice] = useState<{ text: string; tone: "info" | "warning" } | null>(null);
+  const [notice, setNotice] = useState<{ text: string; tone: "info" | "warning" | "success" } | null>(null);
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const folderInputRef = useRef<HTMLInputElement>(null);
@@ -741,6 +741,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
         <nav aria-label="主要导航">
           <a href="#workspace">批量处理</a>
           <a href="#features">功能</a>
+          <a href="/guides">教程</a>
           <span className="privacy-pill">● 图片不离开设备</span>
         </nav>
       </header>
@@ -1271,7 +1272,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
           <a href="https://restore.aixuno.com/">老照片修复</a>
           <a href="https://watermark.aixuno.com/">视频去水印</a>
         </nav>
-        <nav aria-label="站点信息"><a href="/about">关于</a><a href="/contact">联系</a><a href="/privacy">隐私</a><a href="/terms">条款</a><a href="/disclaimer">免责声明</a><a href="/changelog">更新记录</a></nav>
+        <nav aria-label="站点信息"><a href="/guides">教程</a><a href="/about">关于</a><a href="/contact">联系</a><a href="/privacy">隐私</a><a href="/terms">条款</a><a href="/disclaimer">免责声明</a><a href="/changelog">更新记录</a></nav>
         <span>隐私优先 · 浏览器本地处理</span>
       </footer>
       <script

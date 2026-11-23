@@ -2,12 +2,14 @@ import type { MetadataRoute } from "next";
 import { absoluteUrl } from "./site-config";
 import { toolContent, toolIds } from "./tool-content";
 import { taskPages } from "./task-content";
+import { GUIDES, GUIDE_LIST_PATH } from "./guides/guide-data";
 
 // Static export: this metadata route is emitted as a plain file at build time.
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date("2026-11-01T00:00:00+08:00");
+  const guideLastModified = new Date("2026-11-23T00:00:00+08:00");
   return [
     {
       url: absoluteUrl("/"),
@@ -26,6 +28,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.85,
+    })),
+    {
+      url: absoluteUrl(`${GUIDE_LIST_PATH}/`),
+      lastModified: guideLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    ...GUIDES.map((guide) => ({
+      url: absoluteUrl(`/guides/${guide.slug}/`),
+      lastModified: guideLastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
     })),
     ...["about", "privacy", "changelog", "contact", "disclaimer", "terms"].map((slug) => ({
       url: absoluteUrl(`/${slug}`),
