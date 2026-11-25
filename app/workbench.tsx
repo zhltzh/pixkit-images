@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, DragEvent, PointerEvent, useEffect, useMemo, useRef, useState } from "react";
+import { useI18n } from "./i18n";
 import Link from "next/link";
 import { absoluteUrl } from "./site-config";
 import { homeContent, toolContent, type ToolId } from "./tool-content";
@@ -172,6 +173,7 @@ function triggerDownload(url: string, name: string) {
 }
 
 export function ImageWorkbench({ initialTool = "format", initialFormat = "image/webp", homePage = false, pageContent }: { initialTool?: Tool; initialFormat?: Format; homePage?: boolean; pageContent?: typeof homeContent } = {}) {
+  const { locale, t } = useI18n();
   const [items, setItems] = useState<SourceItem[]>([]);
   const [format, setFormat] = useState<Format>(initialFormat);
   const [compressFormat, setCompressFormat] = useState<Format>("original");
@@ -718,18 +720,20 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     setShowHomeContent(false);
     const content = toolContent[tool];
     window.history.replaceState(null, "", `/tools/${content.slug}`);
-    document.title = `${content.metaTitle}｜Pixkit`;
+    const enMeta = content.en;
+    document.title = enMeta && locale === "en" ? `${enMeta.title}｜Pixkit` : `${content.metaTitle}｜Pixkit`;
     document.querySelector(".tool-picker")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   const tools: { id: Tool; icon: string; title: string; description: string; tag: string }[] = [
-    { id: "format", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 9V6.5A2.5 2.5 0 0 1 6.5 4H17"/><path d="m14 1.5 3 2.5-3 2.5"/><path d="M20 15v2.5A2.5 2.5 0 0 1 17.5 20H7"/><path d="m10 22.5-3-2.5 3-2.5"/></svg>', title: "格式转换", description: "JPG、PNG、WebP、AVIF 互转", tag: "默认" },
-    { id: "compress", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v9"/><path d="m8 9 4 4 4-4"/><path d="M5 17h14"/><path d="M5 21h14"/></svg>', title: "批量压缩", description: "更小体积，保持清晰", tag: "常用" },
-    { id: "resize", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 9V5a2 2 0 0 1 2-2h4"/><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M21 15v4a2 2 0 0 1-2 2h-4"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/></svg>', title: "调整尺寸", description: "等比例统一图片宽度", tag: "批量" },
-    { id: "crop", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 2v13a3 3 0 0 0 3 3h13"/><path d="M2 6h13a3 3 0 0 1 3 3v13"/></svg>', title: "裁剪旋转", description: "统一比例与图片方向", tag: "编辑" },
-    { id: "brand", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2.5c3.6 4.2 6 7 6 9.8a6 6 0 0 1-12 0c0-2.8 2.4-5.6 6-9.8Z"/><path d="M9.5 13.5h5"/></svg>', title: "水印命名", description: "添加水印并整理文件名", tag: "更多" },
+    { id: "format", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 9V6.5A2.5 2.5 0 0 1 6.5 4H17"/><path d="m14 1.5 3 2.5-3 2.5"/><path d="M20 15v2.5A2.5 2.5 0 0 1 17.5 20H7"/><path d="m10 22.5-3-2.5 3-2.5"/></svg>', title: t("tool_format_title"), description: t("tool_format_desc"), tag: t("tool_format_tag") },
+    { id: "compress", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v9"/><path d="m8 9 4 4 4-4"/><path d="M5 17h14"/><path d="M5 21h14"/></svg>', title: t("tool_compress_title"), description: t("tool_compress_desc"), tag: t("tool_compress_tag") },
+    { id: "resize", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 9V5a2 2 0 0 1 2-2h4"/><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M21 15v4a2 2 0 0 1-2 2h-4"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/></svg>', title: t("tool_resize_title"), description: t("tool_resize_desc"), tag: t("tool_resize_tag") },
+    { id: "crop", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 2v13a3 3 0 0 0 3 3h13"/><path d="M2 6h13a3 3 0 0 1 3 3v13"/></svg>', title: t("tool_crop_title"), description: t("tool_crop_desc"), tag: t("tool_crop_tag") },
+    { id: "brand", icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2.5c3.6 4.2 6 7 6 9.8a6 6 0 0 1-12 0c0-2.8 2.4-5.6 6-9.8Z"/><path d="M9.5 13.5h5"/></svg>', title: t("tool_brand_title"), description: t("tool_brand_desc"), tag: t("tool_brand_tag") },
   ];
   const activeContent = customContent || (showHomeContent ? homeContent : toolContent[activeTool]);
+  const localizedContent = locale === "en" && activeContent.en ? { ...activeContent, ...activeContent.en } : activeContent;
 
   return (
     <main>
@@ -739,27 +743,27 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
           <span>Pixkit</span>
         </Link>
         <nav aria-label="主要导航">
-          <a href="#workspace">批量处理</a>
-          <a href="#features">功能</a>
-          <a href="/guides">教程</a>
-          <span className="privacy-pill">● 图片不离开设备</span>
+          <a href="#workspace">{t("nav_tools")}</a>
+          <a href="#features">{t("nav_features")}</a>
+          <a href="/guides">{t("nav_guides")}</a>
+          <span className="privacy-pill">{t("nav_privacy_pill")}</span>
         </nav>
       </header>
 
       {!showHomeContent && (
         <nav className="breadcrumb" aria-label="面包屑导航">
-          <Link href="/">首页</Link><span aria-hidden="true">/</span><span>{activeContent.title}</span>
+          <Link href="/">{t("home_breadcrumb")}</Link><span aria-hidden="true">/</span><span>{activeContent.title}</span>
         </nav>
       )}
 
       <section className="home-intro">
-        <span>PIXKIT · {activeContent.eyebrow}</span>
-        <h1>{activeContent.h1}</h1>
-        <p>{activeContent.intro}</p>
+        <span>PIXKIT · {localizedContent.eyebrow}</span>
+        <h1>{localizedContent.h1}</h1>
+        <p>{localizedContent.intro}</p>
       </section>
 
       <section className="tool-picker" aria-label="选择图片工具">
-        <div className="section-intro"><span>选择工具</span><p>选择一个功能，添加图片后即可开始批量处理。</p></div>
+        <div className="section-intro"><span>{t("picker_title")}</span><p>{t("picker_desc")}</p></div>
         <div className="tool-card-grid">
           {tools.map((tool) => (
             <a

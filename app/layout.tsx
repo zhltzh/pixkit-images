@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { SITE_URL } from "./site-config";
 import { SiteNetwork, SiteUtilityLinks } from "./site-network";
+import { LocaleProvider } from "./i18n";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -53,9 +54,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="dns-prefetch" href="https://hm.baidu.com" />
       </head>
       <body>
-        <SiteNetwork />
-        {children}
-        <SiteUtilityLinks />
+        <LocaleProvider>
+          <SiteNetwork />
+          {children}
+          <SiteUtilityLinks />
+        </LocaleProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org",
           "@graph": [

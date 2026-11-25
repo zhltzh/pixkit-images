@@ -1,5 +1,8 @@
+"use client";
+
 import { ShareLinks } from "./share-links";
 import { ContactEmail } from "./contact-email";
+import { LangSwitch, useI18n, type DictKey } from "./i18n";
 
 type SiteId = "markdown" | "image" | "compress" | "pdf" | "bg" | "scan" | "idphoto" | "restore" | "watermark";
 
@@ -15,22 +18,23 @@ const TONE: Record<SiteId, string> = {
   watermark: "from-cyan-500 to-blue-600",
 };
 
-const SITES: { id: SiteId; href: string; mark: string; label: string }[] = [
-  { id: "markdown", href: "https://aixuno.com/", mark: "MD", label: "Markdown 转换" },
-  { id: "image", href: "https://image.aixuno.com/", mark: "IMG", label: "Pixkit 图片批量处理" },
-  { id: "compress", href: "https://compress.aixuno.com/", mark: "ZIP", label: "文件压缩" },
-  { id: "pdf", href: "https://pdf.aixuno.com/", mark: "PDF", label: "PDF 工具" },
-  { id: "bg", href: "https://bg.aixuno.com/", mark: "BG", label: "AI 抠图" },
-  { id: "scan", href: "https://scan.aixuno.com/", mark: "DOC", label: "文档扫描" },
-  { id: "idphoto", href: "https://idphoto.aixuno.com/", mark: "ID", label: "证件照制作" },
-  { id: "restore", href: "https://restore.aixuno.com/", mark: "FIX", label: "老照片修复" },
-  { id: "watermark", href: "https://watermark.aixuno.com/", mark: "WM", label: "视频去水印" },
+const SITES: { id: SiteId; href: string; mark: string; labelKey: DictKey }[] = [
+  { id: "markdown", href: "https://aixuno.com/", mark: "MD", labelKey: "net_md" },
+  { id: "image", href: "https://image.aixuno.com/", mark: "IMG", labelKey: "net_img" },
+  { id: "compress", href: "https://compress.aixuno.com/", mark: "ZIP", labelKey: "net_zip" },
+  { id: "pdf", href: "https://pdf.aixuno.com/", mark: "PDF", labelKey: "net_pdf" },
+  { id: "bg", href: "https://bg.aixuno.com/", mark: "BG", labelKey: "net_bg" },
+  { id: "scan", href: "https://scan.aixuno.com/", mark: "DOC", labelKey: "net_scan" },
+  { id: "idphoto", href: "https://idphoto.aixuno.com/", mark: "ID", labelKey: "net_idphoto" },
+  { id: "restore", href: "https://restore.aixuno.com/", mark: "FIX", labelKey: "net_restore" },
+  { id: "watermark", href: "https://watermark.aixuno.com/", mark: "WM", labelKey: "net_watermark" },
 ];
 
 const CURRENT: SiteId = "image";
 
 // 顶部跨站条：让访客一眼看到 Aixuno 的其他工具，当前站高亮
 export function SiteNetwork() {
+  const { t } = useI18n();
   return (
     <nav aria-label="Aixuno 产品线" className="border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-6xl items-center gap-1.5 overflow-x-auto px-4 py-2 sm:px-6 lg:px-8">
@@ -46,7 +50,7 @@ export function SiteNetwork() {
               >
                 {site.mark}
               </span>
-              <span className="whitespace-nowrap text-xs font-semibold">{site.label}</span>
+              <span className="whitespace-nowrap text-xs font-semibold">{t(site.labelKey)}</span>
             </>
           );
           return isCurrent ? (
@@ -67,6 +71,7 @@ export function SiteNetwork() {
             </a>
           );
         })}
+        <LangSwitch />
       </div>
     </nav>
   );
@@ -74,12 +79,13 @@ export function SiteNetwork() {
 
 // 页脚：分享、反馈与隐私入口
 export function SiteUtilityLinks() {
+  const { t } = useI18n();
   return (
     <div className="mx-auto w-full max-w-6xl px-4 pb-10 sm:px-6 lg:px-8">
       <ShareLinks />
       <p className="mt-3 text-center text-xs text-gray-400">
         <ContactEmail
-          label="邮件反馈"
+          label={t("feedback")}
           className="underline-offset-2 hover:text-gray-700 hover:underline"
         />
         <span className="mx-1.5">·</span>
@@ -93,7 +99,7 @@ export function SiteUtilityLinks() {
         </a>
         <span className="mx-1.5">·</span>
         <a href="/privacy" className="underline-offset-2 hover:text-gray-700 hover:underline">
-          隐私说明
+          {t("privacy_link")}
         </a>
       </p>
     </div>

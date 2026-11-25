@@ -8,6 +8,7 @@ export type ToolContent = {
   eyebrow: string;
   h1: string;
   intro: string;
+  en?: { title: string; eyebrow: string; h1: string; intro: string };
   aboutTitle: string;
   aboutText: string;
   steps: { title: string; text: string }[];
@@ -25,6 +26,7 @@ export const toolContent: Record<ToolId, ToolContent> = {
     eyebrow: "本地批量图片格式转换",
     h1: "批量转换 JPG、PNG、WebP 和 AVIF",
     intro: "一次添加多张图片，统一输出 JPG、PNG、WebP 或 AVIF；也可导入 BMP、ICO、SVG。",
+    en: { title: "Convert format", eyebrow: "Local batch image conversion", h1: "Convert JPG, PNG, WebP and AVIF in batches", intro: "Add multiple images at once and export them as JPG, PNG, WebP or AVIF; BMP, ICO and SVG can be imported." },
     aboutTitle: "如何批量转换 JPG、PNG、WebP 和 AVIF 图片？",
     aboutText: "添加 JPG、JPEG、PNG、WebP、AVIF、BMP、ICO 或 SVG 后，选择统一输出格式再开始批量处理。BMP、ICO、SVG 属于导入格式，会转换为 JPG、PNG、WebP 或 AVIF。需要透明背景时优先选择 PNG 或 WebP。",
     steps: [
@@ -54,6 +56,7 @@ export const toolContent: Record<ToolId, ToolContent> = {
     eyebrow: "浏览器本地图片压缩",
     h1: "批量压缩图片，减少文件体积",
     intro: "统一设置输出格式与图片质量，在清晰度和文件大小之间取得合适平衡。",
+    en: { title: "Compress", eyebrow: "In-browser image compression", h1: "Compress images in batches, cut file size", intro: "Set output format and quality once, then balance clarity against file size." },
     aboutTitle: "怎样批量压缩图片并尽量保持清晰？",
     aboutText: "添加图片后选择保持原格式或输出为 WebP、AVIF、JPG、PNG，再调整质量参数。照片通常适合 WebP 或 JPG；透明素材适合 PNG 或 WebP。建议先从 75%–85% 质量开始。",
     steps: [
@@ -81,6 +84,7 @@ export const toolContent: Record<ToolId, ToolContent> = {
     eyebrow: "批量图片尺寸调整",
     h1: "批量调整图片尺寸和宽度",
     intro: "为多张图片设置统一最大宽度，自动保持原始比例。",
+    en: { title: "Resize", eyebrow: "Batch image resizing", h1: "Resize images and width in batches", intro: "Set one maximum width for many images and keep the original ratio automatically." },
     aboutTitle: "如何批量调整图片尺寸而不变形？",
     aboutText: "设置统一最大宽度后，Pixkit 会按原始宽高比计算输出尺寸。默认只缩小较大的图片，避免小图被放大后失真。",
     steps: [
@@ -108,6 +112,7 @@ export const toolContent: Record<ToolId, ToolContent> = {
     eyebrow: "批量裁剪与旋转",
     h1: "批量裁剪图片并统一旋转方向",
     intro: "统一图片比例，选择需要保留的画面区域，并批量旋转或翻转方向。",
+    en: { title: "Crop & rotate", eyebrow: "Batch crop and rotate", h1: "Crop images in batches and unify orientation", intro: "Unify aspect ratios, choose the area to keep, then rotate or flip in batches." },
     aboutTitle: "如何批量裁剪图片为统一比例？",
     aboutText: "选择 1:1、4:3、3:4、16:9 或 9:16 后，可以从九个位置中指定需要保留的画面区域，并统一旋转 90、180、270 度或水平、垂直翻转。",
     steps: [
@@ -135,6 +140,7 @@ export const toolContent: Record<ToolId, ToolContent> = {
     eyebrow: "批量水印与文件整理",
     h1: "批量添加图片水印并统一重命名",
     intro: "添加右下角文字或右上角品牌图片水印，同时整理输出文件名。",
+    en: { title: "Watermark & rename", eyebrow: "Batch watermarking and file tidy-up", h1: "Add watermarks and rename images in batches", intro: "Add a bottom-right text or top-right brand image watermark, and tidy up output filenames." },
     aboutTitle: "如何批量添加文字或图片水印并重命名？",
     aboutText: "输入文字水印或选择一张品牌图片，可调整图片水印大小与透明度。Pixkit 会把水印应用到全部图片，并按统一前缀和顺序编号输出；原图不会被覆盖。",
     steps: [
@@ -164,6 +170,7 @@ export const homeContent: ToolContent = {
   eyebrow: "浏览器本地批量图片工具",
   h1: "批量图片，简单处理。",
   intro: "格式转换、压缩、调整尺寸和裁剪；无需上传，无需登录。",
+  en: { title: "Pixkit", eyebrow: "Local batch image tools in your browser", h1: "Batch images, handled simply.", intro: "Convert, compress, resize and crop — no uploads, no sign-in." },
   aboutTitle: "免费批量处理 JPG、PNG、WebP、AVIF 等图片",
   aboutText: "Pixkit 是一款浏览器本地图片处理工具。可以导入 JPG、JPEG、PNG、WebP、AVIF、BMP、ICO、SVG，统一转换格式、压缩体积、限制尺寸、裁剪、旋转、添加文字或图片水印并批量重命名。处理过程不需要上传图片。",
   steps: [
