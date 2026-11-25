@@ -738,11 +738,11 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
   return (
     <main>
       <header className="site-header">
-        <Link className="brand" href="/" aria-label="Pixkit 首页">
+        <Link className="brand" href="/" aria-label={t("brand_home")}>
           <span className="brand-mark">P</span>
           <span>Pixkit</span>
         </Link>
-        <nav aria-label="主要导航">
+        <nav aria-label={t("nav_main")}>
           <a href="#workspace">{t("nav_tools")}</a>
           <a href="#features">{t("nav_features")}</a>
           <a href="/guides">{t("nav_guides")}</a>
@@ -751,7 +751,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
       </header>
 
       {!showHomeContent && (
-        <nav className="breadcrumb" aria-label="面包屑导航">
+        <nav className="breadcrumb" aria-label={t("breadcrumb")}>
           <Link href="/">{t("home_breadcrumb")}</Link><span aria-hidden="true">/</span><span>{activeContent.title}</span>
         </nav>
       )}
@@ -762,7 +762,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
         <p>{localizedContent.intro}</p>
       </section>
 
-      <section className="tool-picker" aria-label="选择图片工具">
+      <section className="tool-picker" aria-label={t("picker_aria")}>
         <div className="section-intro"><span>{t("picker_title")}</span><p>{t("picker_desc")}</p></div>
         <div className="tool-card-grid">
           {tools.map((tool) => (
@@ -820,7 +820,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                 className={`dropzone ${dragging ? "is-dragging" : ""}`}
                 role="group"
                 tabIndex={locked ? -1 : 0}
-                aria-label="图片上传区域，按回车选择图片或将文件拖入"
+                aria-label={t("dropzone_aria")}
                 aria-disabled={locked}
                 onClick={(event) => {
                   if ((event.target as HTMLElement).closest("button")) return;
@@ -849,12 +849,12 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
               >
                 <span className="drag-illustration" aria-hidden="true"><i /><i /><b>↓</b></span>
                 <div className="upload-message">
-                  <strong>将图片拖到这里</strong>
-                  <small>支持批量选择，图片不会上传到服务器</small>
-                  <button className="upload-primary" type="button" disabled={locked} onClick={() => inputRef.current?.click()}>选择图片</button>
+                <strong>{t("dropzone_strong")}</strong>
+                <small>{t("dropzone_small")}</small>
+                <button className="upload-primary" type="button" disabled={locked} onClick={() => inputRef.current?.click()}>{t("dropzone_pick")}</button>
                   <div className="upload-options">
-                    <button type="button" disabled={locked} onClick={() => folderInputRef.current?.click()}><span>▤</span>选择文件夹</button>
-                    <button type="button" disabled={locked} onClick={() => window.focus()}><span>⌘</span>粘贴图片（Ctrl+V）</button>
+                    <button type="button" disabled={locked} onClick={() => folderInputRef.current?.click()}><span>▤</span>{t("dropzone_folder")}</button>
+                    <button type="button" disabled={locked} onClick={() => window.focus()}><span>⌘</span>{t("dropzone_paste")}</button>
                   </div>
                 </div>
               </div>
@@ -871,7 +871,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                 className="notice-download"
                 onClick={() => done.length > 1 ? downloadZip() : done[0] && downloadOne(done[0])}
               >
-                {done.length > 1 ? "打包下载 ZIP ↓" : "下载结果 ↓"}
+                {done.length > 1 ? t("download_zip") : t("download_result")}
               </button>
             )}
             <button type="button" onClick={() => { setNotice(null); document.title = "Pixkit 批量图片压缩转换 - 免费在线，本地处理不上传"; }} aria-label="关闭提示">×</button>
@@ -880,10 +880,10 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
 
         {!items.length && (
           <div className="upload-assurance" aria-label="上传说明">
-            <span>支持批量选择</span>
-            <span>图片不上传服务器</span>
-            <span>主要格式 JPG · PNG · WebP · AVIF</span>
-            <span>可导入 BMP · ICO · SVG</span>
+            <span>{t("assurance_batch")}</span>
+            <span>{t("assurance_local")}</span>
+            <span>{t("assurance_formats")}</span>
+            <span>{t("assurance_import")}</span>
           </div>
         )}
 
@@ -893,18 +893,18 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
               <button type="button" className="workspace-back" disabled={locked} onClick={clearItems} aria-label="返回上传图片">←</button>
               <div>
                 <strong>{activeContent.title}</strong>
-                <small>{items.length} 张图片 · {prettyBytes(totalSize)}</small>
+                <small>{items.length} {t("images_count")} · {prettyBytes(totalSize)}</small>
               </div>
               <div className="workspace-toolbar-actions">
-                <button type="button" disabled={locked} onClick={() => folderInputRef.current?.click()}>选择文件夹</button>
-                <button type="button" className="workspace-add" disabled={locked} onClick={() => inputRef.current?.click()}><span>＋</span>继续添加</button>
+                <button type="button" disabled={locked} onClick={() => folderInputRef.current?.click()}>{t("dropzone_folder")}</button>
+                <button type="button" className="workspace-add" disabled={locked} onClick={() => inputRef.current?.click()}><span>＋</span>{t("workspace_add")}</button>
               </div>
             </div>
             <div className={`processing-layout tool-${activeTool}`}>
               <div className="media-column">
                 <div className="queue-head">
-                  <div><strong>{items.length} 张图片</strong><span>共 {prettyBytes(totalSize)}</span></div>
-                  <div className="status-key" aria-live="polite"><i className={`ready-dot ${busy ? "working" : done.length ? "complete" : ""}`} />{busy ? `正在处理 ${Math.min(processedCount + 1, items.length)}/${items.length}` : done.length ? `${done.length} 张已完成` : "准备就绪"}</div>
+                  <div><strong>{items.length} {t("images_count")}</strong><span>{t("total_size")} {prettyBytes(totalSize)}</span></div>
+                  <div className="status-key" aria-live="polite"><i className={`ready-dot ${busy ? "working" : done.length ? "complete" : ""}`} />{busy ? `${t("status_working_prefix")} ${Math.min(processedCount + 1, items.length)}/${items.length}` : done.length ? `${done.length} ${t("status_done_suffix")}` : t("status_ready")}</div>
                 </div>
                 {activeTool === "crop" && activeItem ? (
                   <div className="crop-workspace">
