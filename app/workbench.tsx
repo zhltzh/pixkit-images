@@ -1026,80 +1026,80 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
 
                 <fieldset className="settings-fieldset" disabled={locked}>
                 {activeTool === "format" && <section className="focused-setting">
-            <div className="setting-title"><b>↻</b><div><strong>选择输出格式</strong><span>透明图片建议选择 PNG 或 WebP</span></div></div>
-            <label>输出格式
+            <div className="setting-title"><b>↻</b><div><strong>{t("fmt_title")}</strong><span>{t("fmt_hint")}</span></div></div>
+            <label>{t("fmt_label")}
               <select value={format} onChange={(e) => {
                 const nextFormat = e.target.value as Format;
                 setFormat(nextFormat);
-                if (nextFormat === "image/jpeg") setNotice({ tone: "warning", text: "JPG 不支持透明背景，透明区域将在导出时填充为白色。" });
+                if (nextFormat === "image/jpeg") setNotice({ tone: "warning", text: t("jpg_no_alpha") });
               }}>
-                <option value="original">保持原格式</option>
+                <option value="original">{t("fmt_keep")}</option>
                 <option value="image/jpeg">JPG</option>
-                <option value="image/png">PNG（保留透明背景）</option>
-                <option value="image/webp" disabled={encodingSupport?.webp === false}>WebP{encodingSupport?.webp === false ? "（当前浏览器不能导出）" : ""}</option>
-                <option value="image/avif" disabled={encodingSupport?.avif === false}>AVIF{encodingSupport?.avif === false ? "（当前浏览器不能导出）" : ""}</option>
+                <option value="image/png">{t("fmt_png")}</option>
+                <option value="image/webp" disabled={encodingSupport?.webp === false}>WebP{encodingSupport?.webp === false ? t("fmt_browser_no") : ""}</option>
+                <option value="image/avif" disabled={encodingSupport?.avif === false}>AVIF{encodingSupport?.avif === false ? t("fmt_browser_no") : ""}</option>
               </select>
             </label>
-            <div className="format-hints"><span>JPG<small>照片兼容性最好</small></span><span>PNG<small>保留透明背景</small></span><span>WebP<small>{encodingSupport?.webp === false ? "当前浏览器不支持" : "体积与质量平衡"}</small></span><span>AVIF<small>{encodingSupport?.avif === false ? "当前浏览器不支持" : "新一代高压缩"}</small></span></div>
+            <div className="format-hints"><span>JPG<small>{t("fmt_jpg_hint")}</small></span><span>PNG<small>{t("fmt_png_hint")}</small></span><span>WebP<small>{encodingSupport?.webp === false ? t("fmt_webp_hint_no") : t("fmt_webp_hint")}</small></span><span>AVIF<small>{encodingSupport?.avif === false ? t("fmt_avif_hint_no") : t("fmt_avif_hint")}</small></span></div>
           </section>}
 
                 {activeTool === "compress" && <section className="focused-setting">
-            <div className="setting-title"><b>⌁</b><div><strong>控制压缩强度</strong><span>数值越高，细节保留越多</span></div></div>
-            <label className="compress-format">压缩后格式
+            <div className="setting-title"><b>⌁</b><div><strong>{t("cmp_title")}</strong><span>{t("cmp_hint")}</span></div></div>
+            <label className="compress-format">{t("cmp_label")}
               <select value={compressFormat} onChange={(e) => {
                 const nextFormat = e.target.value as Format;
                 setCompressFormat(nextFormat);
-                if (nextFormat === "image/jpeg") setNotice({ tone: "warning", text: "JPG 不支持透明背景，透明区域将在压缩导出时填充为白色。" });
+                if (nextFormat === "image/jpeg") setNotice({ tone: "warning", text: t("jpg_no_alpha") });
               }}>
-                <option value="original">保持原格式</option>
-                <option value="image/jpeg">JPG（照片兼容）</option>
-                <option value="image/png">PNG（保留透明）</option>
-                <option value="image/webp" disabled={encodingSupport?.webp === false}>WebP（推荐）{encodingSupport?.webp === false ? "（当前浏览器不能导出）" : ""}</option>
-                <option value="image/avif" disabled={encodingSupport?.avif === false}>AVIF（更小体积）{encodingSupport?.avif === false ? "（当前浏览器不能导出）" : ""}</option>
+                <option value="original">{t("fmt_keep")}</option>
+                <option value="image/jpeg">{t("cmp_jpg")}</option>
+                <option value="image/png">{t("cmp_png")}</option>
+                <option value="image/webp" disabled={encodingSupport?.webp === false}>{t("cmp_webp")}{encodingSupport?.webp === false ? t("fmt_browser_no") : ""}</option>
+                <option value="image/avif" disabled={encodingSupport?.avif === false}>{t("cmp_avif")}{encodingSupport?.avif === false ? t("fmt_browser_no") : ""}</option>
               </select>
             </label>
-            <label className="range-label"><span>图片质量 <output>{quality}%</output></span>
+            <label className="range-label"><span>{t("quality_label")} <output>{quality}%</output></span>
               <input type="range" min="20" max="100" value={quality} onChange={(e) => setQuality(Number(e.target.value))} />
             </label>
-            <div className="quality-scale"><span>文件更小</span><span>推荐 75–85%</span><span>画质更高</span></div>
-            {compressFormat === "original" && items.some((item) => item.file.type === "image/png") && <p className="compatibility-note">PNG 使用无损编码，保持原格式时质量滑杆对体积影响有限；需要明显减小文件时建议选择 WebP。</p>}
+            <div className="quality-scale"><span>{t("quality_small")}</span><span>{t("quality_rec")}</span><span>{t("quality_high")}</span></div>
+            {compressFormat === "original" && items.some((item) => item.file.type === "image/png") && <p className="compatibility-note">{t("png_note")}</p>}
           </section>}
 
                 {activeTool === "resize" && <section className="focused-setting">
-            <div className="setting-title"><b>↔</b><div><strong>调整尺寸</strong><span>等比例缩小，不放大图片</span></div></div>
-            <label className="switch-row"><span>限制最大宽度</span><input type="checkbox" checked={resize} onChange={(e) => setResize(e.target.checked)} /></label>
-            <label>最大宽度（像素）
+            <div className="setting-title"><b>↔</b><div><strong>{t("rs_title")}</strong><span>{t("rs_hint")}</span></div></div>
+            <label className="switch-row"><span>{t("rs_limit")}</span><input type="checkbox" checked={resize} onChange={(e) => setResize(e.target.checked)} /></label>
+            <label>{t("rs_max_width")}
               <input type="number" min="64" max="12000" value={width} disabled={!resize} onChange={(e) => setWidth(Number(e.target.value))} />
             </label>
             <div className="preset-row">{[800, 1200, 1600, 1920].map((value) => <button key={value} onClick={() => { setResize(true); setWidth(value); }}>{value}px</button>)}</div>
           </section>}
 
                 {activeTool === "crop" && <section className="focused-setting">
-            <div className="setting-title"><b>⌗</b><div><strong>裁剪图片</strong><span>先选比例，再设置尺寸和格式</span></div></div>
-            <div className="crop-ratio-presets" aria-label="常用裁剪比例">
+            <div className="setting-title"><b>⌗</b><div><strong>{t("crop_title")}</strong><span>{t("crop_hint")}</span></div></div>
+            <div className="crop-ratio-presets" aria-label={t("crop_ratio_aria")}>
               {([
-                ["none", "自由"], ["16:9", "16:9"], ["9:16", "9:16"],
-                ["4:3", "4:3"], ["3:4", "3:4"], ["1:1", "1:1"], ["custom", "自定义"],
+                ["none", t("crop_free")], ["16:9", "16:9"], ["9:16", "9:16"],
+                ["4:3", "4:3"], ["3:4", "3:4"], ["1:1", "1:1"], ["custom", t("crop_custom")],
               ] as [CropRatio, string][]).map(([ratio, label]) => (
                 <button type="button" key={ratio} className={crop === ratio ? "active" : ""} onClick={() => setCrop(ratio)}>{label}</button>
               ))}
             </div>
             <div className="crop-size-panel">
-              <div className="crop-size-heading"><strong>输出尺寸</strong><span>像素</span></div>
+              <div className="crop-size-heading"><strong>{t("crop_size_title")}</strong><span>{t("crop_px")}</span></div>
               <div className="crop-size-inputs">
-                <label>宽度<input type="number" min="1" max="20000" value={cropWidth} onFocus={() => setCrop("custom")} onChange={(e) => { setCrop("custom"); setCropWidth(Number(e.target.value)); }} /></label>
+                <label>{t("crop_width")}<input type="number" min="1" max="20000" value={cropWidth} onFocus={() => setCrop("custom")} onChange={(e) => { setCrop("custom"); setCropWidth(Number(e.target.value)); }} /></label>
                 <span>×</span>
-                <label>高度<input type="number" min="1" max="20000" value={cropHeight} onFocus={() => setCrop("custom")} onChange={(e) => { setCrop("custom"); setCropHeight(Number(e.target.value)); }} /></label>
+                <label>{t("crop_height")}<input type="number" min="1" max="20000" value={cropHeight} onFocus={() => setCrop("custom")} onChange={(e) => { setCrop("custom"); setCropHeight(Number(e.target.value)); }} /></label>
               </div>
             </div>
             <div className="crop-focus-setting">
-              <span>裁剪区域位置</span>
-              <small>直接点击左侧画面，或使用九宫格精确选择</small>
-              <div className="crop-focus-grid" aria-label="裁剪区域位置">
+              <span>{t("crop_focus_label")}</span>
+              <small>{t("crop_focus_hint")}</small>
+              <div className="crop-focus-grid" aria-label={t("crop_focus_aria")}>
                 {([
-                  ["top-left", "↖", "左上"], ["top", "↑", "上方"], ["top-right", "↗", "右上"],
-                  ["left", "←", "左侧"], ["center", "●", "居中"], ["right", "→", "右侧"],
-                  ["bottom-left", "↙", "左下"], ["bottom", "↓", "下方"], ["bottom-right", "↘", "右下"],
+                  ["top-left", "↖", t("crop_pos_tl")], ["top", "↑", t("crop_pos_top")], ["top-right", "↗", t("crop_pos_tr")],
+                  ["left", "←", t("crop_pos_left")], ["center", "●", t("crop_pos_center")], ["right", "→", t("crop_pos_right")],
+                  ["bottom-left", "↙", t("crop_pos_bl")], ["bottom", "↓", t("crop_pos_bottom")], ["bottom-right", "↘", t("crop_pos_br")],
                 ] as [CropFocus, string, string][]).map(([focus, icon, label]) => (
                   <button
                     type="button"
@@ -1107,7 +1107,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                     className={cropFocus === focus ? "active" : ""}
                     disabled={crop === "none"}
                     onClick={() => setCropFocus(focus)}
-                    aria-label={`裁剪位置：${label}`}
+                    aria-label={`${t("crop_pos_aria")}${label}`}
                     title={label}
                   >
                     {icon}
@@ -1116,42 +1116,42 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
               </div>
             </div>
             <div className="crop-control-block">
-              <span>旋转图片</span>
-              <div className="rotation-group" aria-label="旋转角度">
+              <span>{t("crop_rotate")}</span>
+              <div className="rotation-group" aria-label={t("rotate_aria")}>
                 {[0, 90, 180, 270].map((angle) => <button key={angle} className={rotation === angle ? "active" : ""} onClick={() => setRotation(angle)}>{angle}°</button>)}
               </div>
             </div>
             <div className="crop-control-block">
-              <span>翻转图片</span>
-              <div className="flip-group" aria-label="翻转图片">
-                <button type="button" className={flipHorizontal ? "active" : ""} onClick={() => setFlipHorizontal((value) => !value)}>↔ 水平翻转</button>
-                <button type="button" className={flipVertical ? "active" : ""} onClick={() => setFlipVertical((value) => !value)}>↕ 垂直翻转</button>
+              <span>{t("crop_flip")}</span>
+              <div className="flip-group" aria-label={t("flip_aria")}>
+                <button type="button" className={flipHorizontal ? "active" : ""} onClick={() => setFlipHorizontal((value) => !value)}>↔ {t("flip_h")}</button>
+                <button type="button" className={flipVertical ? "active" : ""} onClick={() => setFlipVertical((value) => !value)}>↕ {t("flip_v")}</button>
               </div>
             </div>
-            <label>保存格式
+            <label>{t("crop_save_format")}
               <select value={cropFormat} onChange={(e) => setCropFormat(e.target.value as Format)}>
-                <option value="original">保持原格式</option>
+                <option value="original">{t("fmt_keep")}</option>
                 <option value="image/jpeg">JPG</option>
-                <option value="image/png">PNG（保留透明）</option>
+                <option value="image/png">{t("cmp_png")}</option>
                 <option value="image/webp" disabled={encodingSupport?.webp === false}>WebP</option>
                 <option value="image/avif" disabled={encodingSupport?.avif === false}>AVIF</option>
               </select>
             </label>
             <div className="crop-apply-actions">
-              <button type="button" className="apply-current" onClick={saveCurrentCropSettings}>✓ 应用到当前图片</button>
-              <button type="button" className="apply-all" onClick={applyCropSettingsToAll}>✓✓ 应用到所有图片</button>
+              <button type="button" className="apply-current" onClick={saveCurrentCropSettings}>{t("crop_apply_current")}</button>
+              <button type="button" className="apply-all" onClick={applyCropSettingsToAll}>{t("crop_apply_all")}</button>
             </div>
           </section>}
 
                 {activeTool === "brand" && <section className="focused-setting">
-            <div className="setting-title"><b>A</b><div><strong>命名与水印</strong><span>整理输出文件</span></div></div>
-            <label>文件名前缀<input type="text" value={rename} maxLength={40} onChange={(e) => setRename(e.target.value)} placeholder="例如：product" /></label>
-            <label>右下角文字水印<input type="text" value={watermark} maxLength={60} onChange={(e) => setWatermark(e.target.value)} placeholder="可选，例如：© 品牌名" /></label>
+            <div className="setting-title"><b>A</b><div><strong>{t("brand_title")}</strong><span>{t("brand_hint")}</span></div></div>
+            <label>{t("brand_prefix")}<input type="text" value={rename} maxLength={40} onChange={(e) => setRename(e.target.value)} placeholder={t("brand_prefix_ph")} /></label>
+            <label>{t("brand_text_label")}<input type="text" value={watermark} maxLength={60} onChange={(e) => setWatermark(e.target.value)} placeholder={t("brand_text_ph")} /></label>
             <div className="watermark-upload">
-              <span>右上角图片水印</span>
+              <span>{t("brand_img_label")}</span>
               <input ref={watermarkInputRef} type="file" accept={acceptedInputTypes} onChange={onWatermarkImageChoose} hidden />
               <button type="button" className="button ghost" onClick={() => watermarkInputRef.current?.click()}>
-                {watermarkImage ? "更换水印图片" : "选择水印图片"}
+                {watermarkImage ? t("brand_img_change") : t("brand_img_pick")}
               </button>
               {watermarkImage && (
                 <div className="watermark-file">
@@ -1160,18 +1160,18 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                 </div>
               )}
             </div>
-            <label className="range-label"><span>图片水印大小 <output>{watermarkScale}%</output></span>
+            <label className="range-label"><span>{t("brand_img_size")} <output>{watermarkScale}%</output></span>
               <input type="range" min="8" max="45" value={watermarkScale} disabled={!watermarkImage} onChange={(e) => setWatermarkScale(Number(e.target.value))} />
             </label>
-            <label className="range-label"><span>图片水印透明度 <output>{watermarkOpacity}%</output></span>
+            <label className="range-label"><span>{t("brand_img_opacity")} <output>{watermarkOpacity}%</output></span>
               <input type="range" min="15" max="100" value={watermarkOpacity} disabled={!watermarkImage} onChange={(e) => setWatermarkOpacity(Number(e.target.value))} />
             </label>
           </section>}
                   {estimate && (
                     <aside className="result-estimate" aria-live="polite">
-                      <span>{estimate.showSize ? "预计输出" : "即时预览"}</span>
-                      <strong>{estimate.showSize ? `${prettyBytes(totalSize)} → 约 ${prettyBytes(estimate.bytes)}` : estimate.detail}</strong>
-                      <small>{estimate.showSize ? `${estimate.detail} · 仅供处理前参考，实际体积以导出结果为准` : "当前效果仅显示在缩略图中，处理后生成最终文件"}</small>
+                      <span>{estimate.showSize ? t("estimate_output") : t("estimate_preview")}</span>
+                      <strong>{estimate.showSize ? `${prettyBytes(totalSize)} → ${prettyBytes(estimate.bytes)}` : estimate.detail}</strong>
+                      <small>{estimate.showSize ? `${estimate.detail} · ${t("estimate_note")}` : t("estimate_preview_note")}</small>
                     </aside>
                   )}
                 </fieldset>
