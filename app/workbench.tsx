@@ -954,14 +954,14 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                               aria-hidden="true"
                             />
                           )}
-                          {crop !== "none" && !activeItem.resultUrl && <span className="crop-stage-tip">点击画面，选择需要保留的位置</span>}
+                          {crop !== "none" && !activeItem.resultUrl && <span className="crop-stage-tip">{t("crop_stage_tip")}</span>}
                         </div>
                         <footer>
                           <div>
                             <strong>{activeItem.outputName || activeItem.file.name}</strong>
                             <span>{activeItem.width} × {activeItem.height} → {outputDimensions(activeItem).width} × {outputDimensions(activeItem).height}</span>
                           </div>
-                          {activeItem.status === "done" && <button type="button" onClick={() => downloadOne(activeItem)}>下载当前图片 ↓</button>}
+                          {activeItem.status === "done" && <button type="button" onClick={() => downloadOne(activeItem)}>{t("download_current")}</button>}
                         </footer>
                       </article>
                     </div>
@@ -998,17 +998,17 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                           {activeTool === "brand" && watermark.trim() && !item.resultUrl && <span className="watermark-preview">{watermark.trim()}</span>}
                           <button disabled={locked} onClick={() => removeItem(item.id)} aria-label={`删除 ${item.file.name}`}>×</button>
                           <span className={`card-status ${item.status}`}>
-                            {item.status === "ready" && "待处理"}
-                            {item.status === "working" && "处理中"}
-                            {item.status === "done" && "已完成"}
-                            {item.status === "error" && "失败"}
+                            {item.status === "ready" && t("item_ready")}
+                            {item.status === "working" && t("item_working")}
+                            {item.status === "done" && t("item_done")}
+                            {item.status === "error" && t("item_error")}
                           </span>
                         </div>
                         <div className="card-meta">
                           <strong title={item.outputName || item.file.name}>{item.outputName || item.file.name}</strong>
                           <span>{displayWidth} × {displayHeight}{willResize ? ` → ${predicted.width} × ${predicted.height}` : ""} · {prettyBytes(item.result?.size || item.file.size)}</span>
                           {item.message && <small className="error-message">{item.message}</small>}
-                          {item.status === "done" && <button className="text-button" disabled={locked} onClick={() => downloadOne(item)}>单张下载 ↓</button>}
+                          {item.status === "done" && <button className="text-button" disabled={locked} onClick={() => downloadOne(item)}>{t("download_one")}</button>}
                         </div>
                       </article>
                     );
