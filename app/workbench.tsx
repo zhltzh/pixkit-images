@@ -288,13 +288,13 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     if (!activeItem) return;
     const next = currentCropSettings();
     setCropSettingsById((current) => ({ ...current, [activeItem.id]: next }));
-    setNotice({ tone: "info", text: `已保存“${activeItem.file.name}”的裁剪设置。` });
+    setNotice({ tone: "info", text: locale === "en" ? `Saved crop settings for "${activeItem.file.name}".` : `已保存“${activeItem.file.name}”的裁剪设置。` });
   }
 
   function applyCropSettingsToAll() {
     const next = currentCropSettings();
     setCropSettingsById(Object.fromEntries(items.map((item) => [item.id, next])));
-    setNotice({ tone: "info", text: `当前裁剪设置已应用到全部 ${items.length} 张图片。` });
+    setNotice({ tone: "info", text: locale === "en" ? `Crop settings applied to all ${items.length} images.` : `当前裁剪设置已应用到全部 ${items.length} 张图片。` });
   }
 
   function selectCropItem(itemId: string) {
@@ -326,18 +326,19 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     setCropFocus(nextFocus as CropFocus);
   }
   const estimate = useMemo(() => {
+    const en = locale === "en";
     if (!items.length) return null;
     let ratio = 1;
-    let detail = "实际结果取决于图片内容";
+    let detail = en ? "The actual result depends on the image content" : "实际结果取决于图片内容";
     if (activeTool === "format") {
       ratio = format === "image/avif" ? 0.5 : format === "image/webp" ? 0.68 : format === "image/jpeg" ? 0.78 : format === "image/png" ? 1.05 : 1;
-      detail = format === "original" ? "保持原格式重新生成" : format === "image/jpeg" ? "预计输出为 JPG；透明区域会填充为白色" : `预计输出为 ${formatExt[format]?.toUpperCase() || "原格式"}`;
+      detail = format === "original" ? (en ? "Regenerated in the original format" : "保持原格式重新生成") : format === "image/jpeg" ? (en ? "Expected output: JPG; transparent areas will be filled with white" : "预计输出为 JPG；透明区域会填充为白色") : en ? `Expected output: ${formatExt[format]?.toUpperCase() || "original format"}` : `预计输出为 ${formatExt[format]?.toUpperCase() || "原格式"}`;
     } else if (activeTool === "compress") {
       ratio = Math.max(0.18, Math.min(0.96, 0.12 + Math.pow(quality / 100, 1.7) * 0.84));
       if (compressFormat === "image/webp") ratio *= 0.82;
       if (compressFormat === "image/avif") ratio *= 0.65;
       if (compressFormat === "image/png") ratio *= 1.05;
-      detail = `${compressFormat === "original" ? "保持原格式" : `输出 ${formatExt[compressFormat].toUpperCase()}`} · 当前质量 ${quality}%`;
+      detail = `${compressFormat === "original" ? (en ? "Keep original format" : "保持原格式") : en ? `Output ${formatExt[compressFormat].toUpperCase()}` : `输出 ${formatExt[compressFormat].toUpperCase()}`} · ${en ? `current quality ${quality}%` : `当前质量 ${quality}%`}`;
     } else if (activeTool === "resize") {
       const sourcePixels = items.reduce((sum, item) => sum + item.width * item.height, 0);
       const outputPixels = items.reduce((sum, item) => {
@@ -345,25 +346,23 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
         return sum + item.width * item.height * scale * scale;
       }, 0);
       ratio = sourcePixels ? outputPixels / sourcePixels : 1;
-      detail = resize ? `最大宽度 ${width}px，保持原比例` : "尚未启用尺寸限制";
+      detail = resize ? (en ? `Max width ${width}px, keep original ratio` : `最大宽度 ${width}px，保持原比例`) : en ? "No size limit enabled" : "尚未启用尺寸限制";
     } else if (activeTool === "crop") {
-      const focusLabel: Record<CropFocus, string> = {
-        "top-left": "左上", top: "上方", "top-right": "右上",
-        left: "左侧", center: "居中", right: "右侧",
-        "bottom-left": "左下", bottom: "下方", "bottom-right": "右下",
-      };
-      const flips = [flipHorizontal && "水平翻转", flipVertical && "垂直翻转"].filter(Boolean).join(" · ");
-      detail = `${crop === "none" ? "保持原比例" : `${focusLabel[cropFocus]}裁剪为 ${crop}`} · 旋转 ${rotation}°${flips ? ` · ${flips}` : ""}`;
+      const focusLabel: Record<CropFocus, string> = en
+        ? { "top-left": "Top left", top: "Top", "top-right": "Top right", left: "Left", center: "Center", right: "Right", "bottom-left": "Bottom left", bottom: "Bottom", "bottom-right": "Bottom right" }
+        : { "top-left": "左上", top: "上方", "top-right": "右上", left: "左侧", center: "居中", right: "右侧", "bottom-left": "左下", bottom: "下方", "bottom-right": "右下" };
+      const flips = [flipHorizontal && (en ? "Flip horizontal" : "水平翻转"), flipVertical && (en ? "Flip vertical" : "垂直翻转")].filter(Boolean).join(" · ");
+      detail = `${crop === "none" ? (en ? "Keep original ratio" : "保持原比例") : en ? `${focusLabel[cropFocus]} cropped to ${crop}` : `${focusLabel[cropFocus]}裁剪为 ${crop}`} · ${en ? `rotated ${rotation}°` : `旋转 ${rotation}°`}${flips ? ` · ${flips}` : ""}`;
     } else {
-      const watermarkTypes = [watermarkImage && "图片", watermark.trim() && "文字"].filter(Boolean).join(" + ");
-      detail = watermarkTypes ? `缩略图正在预览${watermarkTypes}水印` : "添加文字或图片后可即时预览水印";
+      const watermarkTypes = [watermarkImage && (en ? "image" : "图片"), watermark.trim() && (en ? "text" : "文字")].filter(Boolean).join(" + ");
+      detail = watermarkTypes ? (en ? `Previewing ${watermarkTypes} watermark in thumbnails` : `缩略图正在预览${watermarkTypes}水印`) : en ? "Add text or an image to preview the watermark instantly" : "添加文字或图片后可即时预览水印";
     }
     return {
       bytes: Math.max(1, Math.round(totalSize * ratio)),
       detail,
       showSize: activeTool === "format" || activeTool === "compress" || activeTool === "resize",
     };
-  }, [activeTool, compressFormat, crop, cropFocus, flipHorizontal, flipVertical, format, items, quality, resize, rotation, totalSize, watermark, watermarkImage, width]);
+  }, [activeTool, compressFormat, crop, cropFocus, flipHorizontal, flipVertical, format, items, locale, quality, resize, rotation, totalSize, watermark, watermarkImage, width]);
 
   function outputDimensions(item: SourceItem) {
     let outputWidth = item.width;
