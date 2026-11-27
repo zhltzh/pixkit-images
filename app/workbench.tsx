@@ -393,7 +393,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     if (lockedRef.current) return;
     const remaining = MAX_IMAGES - itemsRef.current.length;
     if (remaining <= 0) {
-      setNotice({ tone: "warning", text: `最多同时处理 ${MAX_IMAGES} 张图片，请先处理或移除部分图片后再添加。` });
+      setNotice({ tone: "warning", text: t("notice_max").replace("{max}", String(MAX_IMAGES)) });
       return;
     }
     const incoming = Array.from(list);
@@ -434,13 +434,13 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     if (!activeItemId && valid[0]) setActiveItemId(valid[0].id);
     const skipped = duplicateCount + unsupportedCount + failedCount + overCount;
     if (largeCount) {
-      setNotice({ tone: "warning", text: `已添加 ${valid.length} 张图片，其中 ${largeCount} 张为大图，处理时可能需要更长时间和更多内存。${skipped ? `另有 ${skipped} 个文件未加入。` : ""}${overCount ? `最多 ${MAX_IMAGES} 张，已忽略 ${overCount} 张图片。` : ""}` });
+      setNotice({ tone: "warning", text: `${t("notice_added_large").replace("{ok}", String(valid.length)).replace("{large}", String(largeCount))}${skipped ? t("notice_added_skipped").replace("{skipped}", String(skipped)) : ""}${overCount ? t("notice_added_over").replace("{max}", String(MAX_IMAGES)).replace("{over}", String(overCount)) : ""}` });
     } else if (skipped) {
-      setNotice({ tone: "warning", text: `已添加 ${valid.length} 张图片；跳过 ${duplicateCount} 张重复图片、${unsupportedCount} 个不支持的文件${failedCount ? `，另有 ${failedCount} 张当前浏览器无法读取` : ""}${overCount ? `；最多 ${MAX_IMAGES} 张，已忽略 ${overCount} 张图片` : ""}。` });
+      setNotice({ tone: "warning", text: t("notice_added_dup").replace("{ok}", String(valid.length)).replace("{dup}", String(duplicateCount)).replace("{unsupported}", String(unsupportedCount)).replace("{failed}", failedCount ? t("notice_added_dup_failed").replace("{failed}", String(failedCount)) : "").replace("{over}", overCount ? t("notice_added_over").replace("{max}", String(MAX_IMAGES)).replace("{over}", String(overCount)) : "") });
     } else if (valid.length) {
       setNotice(null);
     } else {
-      setNotice({ tone: "warning", text: "没有找到可读取的新图片，请检查文件格式后重试。" });
+      setNotice({ tone: "warning", text: t("notice_added_none") });
     }
 
     // 文件加入后把「开始处理」按钮滚入视野，避免操作按钮落在第二三屏
@@ -463,13 +463,13 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     event.target.value = "";
     if (!file) return;
     if (!isSupportedImage(file)) {
-      setNotice({ tone: "warning", text: "这张水印图片格式不受支持，请选择 PNG、WebP、JPG、SVG、BMP 或 ICO。" });
+      setNotice({ tone: "warning", text: t("brand_img_unsupported") });
       return;
     }
     const url = URL.createObjectURL(file);
     setWatermarkImage(file);
     setWatermarkImageUrl(url);
-    setNotice({ tone: "info", text: `已添加图片水印“${file.name}”，可继续调整大小和透明度。` });
+    setNotice({ tone: "info", text: `${t("brand_img_added")} "${file.name}"${t("brand_img_added_suffix")}` });
   }
 
   function clearWatermarkImage() {

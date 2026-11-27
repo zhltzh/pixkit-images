@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useI18n } from "./i18n";
 
 /**
  * 反馈邮箱入口。
@@ -13,12 +14,14 @@ const EMAIL_USER = "bushiyayaya";
 const EMAIL_DOMAIN = "qq.com";
 
 export function ContactEmail({ label, className }: { label: string; className?: string }) {
+  const { locale } = useI18n();
   const [href, setHref] = useState("#");
 
   useEffect(() => {
     const address = [EMAIL_USER, EMAIL_DOMAIN].join("@");
-    setHref(`mailto:${address}?subject=${encodeURIComponent("Pixkit 反馈")}`);
-  }, []);
+    const subject = locale === "en" ? "Pixkit feedback" : "Pixkit 反馈";
+    setHref(`mailto:${address}?subject=${encodeURIComponent(subject)}`);
+  }, [locale]);
 
   return (
     <a href={href} className={className} rel="nofollow">
