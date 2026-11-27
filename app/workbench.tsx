@@ -674,15 +674,15 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
     setNotice({
       tone: failureCount ? "warning" : "success",
       text: failureCount
-        ? `已完成 ${successCount} 张，${failureCount} 张处理失败。请查看图片卡片中的原因。`
+        ? t("notice_done_fail").replace("{ok}", String(successCount)).replace("{fail}", String(failureCount))
         : keptOriginalCount
-          ? `${successCount} 张图片已完成；其中 ${keptOriginalCount} 张压缩后未变小（多为 PNG 无损格式），已保留原文件。需要更小体积建议选择 WebP 输出。`
+          ? t("notice_done_kept").replace("{ok}", String(successCount)).replace("{kept}", String(keptOriginalCount))
           : fallbackCount
-            ? `${successCount} 张图片已完成；其中 ${fallbackCount} 张因原格式仅支持导入或当前浏览器不能编码，已自动输出为兼容格式。`
-            : `${successCount} 张图片处理完成，文件已就绪，点击「下载」即可保存。`,
+            ? t("notice_done_fallback").replace("{ok}", String(successCount)).replace("{fb}", String(fallbackCount))
+            : t("notice_done_plain").replace("{ok}", String(successCount)),
     });
     if (successCount && typeof document !== "undefined") {
-      document.title = `✓ ${successCount} 张处理完成 · Pixkit`;
+      document.title = t("title_done").replace("{ok}", String(successCount));
     }
   }
 
@@ -701,9 +701,9 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
       const name = `${activeTool === "brand" ? rename.trim() || "images" : "pixkit-images"}-${new Date().toISOString().slice(0, 10)}.zip`;
       triggerDownload(url, name);
       setTimeout(() => URL.revokeObjectURL(url), 10_000);
-      setNotice({ tone: "info", text: `已将 ${done.length} 张处理结果打包为 ZIP，下载已经开始。` });
+      setNotice({ tone: "info", text: t("notice_zip_done").replace("{n}", String(done.length)) });
     } catch {
-      setNotice({ tone: "warning", text: "ZIP 打包没有完成，请稍后重试，或先使用单张下载。" });
+      setNotice({ tone: "warning", text: t("notice_zip_failed") });
     } finally {
       setZipBusy(false);
       lockedRef.current = false;
@@ -712,7 +712,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
 
   function selectTool(tool: Tool) {
     if (lockedRef.current) {
-      setNotice({ tone: "warning", text: zipBusy ? "正在打包 ZIP，请下载开始后再切换工具。" : "当前批量任务尚未完成，请处理结束后再切换工具。" });
+      setNotice({ tone: "warning", text: zipBusy ? t("notice_switch_zip") : t("notice_switch_busy") });
       return;
     }
     setActiveTool(tool);
