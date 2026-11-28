@@ -751,7 +751,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
 
       {!showHomeContent && (
         <nav className="breadcrumb" aria-label={t("breadcrumb")}>
-          <Link href="/">{t("home_breadcrumb")}</Link><span aria-hidden="true">/</span><span>{activeContent.title}</span>
+          <Link href="/">{t("home_breadcrumb")}</Link><span aria-hidden="true">/</span><span>{localizedContent.title}</span>
         </nav>
       )}
 
@@ -809,8 +809,8 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
                 dangerouslySetInnerHTML={{ __html: tools.find((tool) => tool.id === activeTool)?.icon ?? "" }}
               />
               <div>
-                <h2>{activeContent.title}</h2>
-                <p>{activeContent.intro}</p>
+                <h2>{localizedContent.title}</h2>
+                <p>{localizedContent.intro}</p>
               </div>
             </div>
 
@@ -891,7 +891,7 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
             <div className="workspace-toolbar">
               <button type="button" className="workspace-back" disabled={locked} onClick={clearItems} aria-label="返回上传图片">←</button>
               <div>
-                <strong>{activeContent.title}</strong>
+                <strong>{localizedContent.title}</strong>
                 <small>{items.length} {t("images_count")} · {prettyBytes(totalSize)}</small>
               </div>
               <div className="workspace-toolbar-actions">
@@ -1196,31 +1196,34 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
         )}
       </section>
 
-      <section className="tool-shot" aria-label="批量处理界面预览"><div className="tool-shot-inner"><img src="/batch-interface.webp" alt="批量处理界面：五张图片同时导入，显示各自的尺寸与体积，以及压缩后的总体积" width="2368" height="1568" loading="lazy" decoding="async" /><p>一次导入多张图片，每张的尺寸和体积都能看到，压缩前后对比一目了然。</p></div></section>
+      <section className="tool-shot" aria-label={t("shot_aria")}><div className="tool-shot-inner"><img src="/batch-interface.webp" alt={t("shot_alt")} width="2368" height="1568" loading="lazy" decoding="async" /><p>{t("shot_caption")}</p></div></section>
 
-      <section className="brand-story" aria-label="Pixkit 本地图片处理">
+      <section className="brand-story" aria-label={t("story_aria")}>
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/og.png" alt="Pixkit 批量图片本地处理流程" width="1200" height="630" loading="lazy" decoding="async" />
+          <img src="/og.png" alt={t("story_alt")} width="1200" height="630" loading="lazy" decoding="async" />
         </div>
         <article>
           <span>LOCAL-FIRST IMAGE WORKSPACE</span>
-          <h2>图片留在设备里，<br />处理速度留给你。</h2>
-          <p>转换、压缩、调整尺寸与裁剪都在当前浏览器中完成。无需等待上传，也不会改变原始图片。</p>
-          <ul><li>批量处理</li><li>原图不修改</li><li>结果打包下载</li></ul>
+          <h2>{t("story_h2a")}<br />{t("story_h2b")}</h2>
+          <p>{t("story_p")}</p>
+          <ul><li>{t("story_li1")}</li><li>{t("story_li2")}</li><li>{t("story_li3")}</li></ul>
         </article>
       </section>
 
       <section className="features" id="features">
-        <div><span>100%</span><strong>本地处理</strong><p>图片只存在于你的设备，不经过服务器。</p></div>
-        <div><span>5项</span><strong>核心工具</strong><p>每次专注一个处理任务，参数和结果不会互相混用。</p></div>
-        <div><span>∞</span><strong>不限次数</strong><p>无需注册，打开网页就能使用。</p></div>
+        <div><span>{t("features_local_num")}</span><strong>{t("features_local_title")}</strong><p>{t("features_local_text")}</p></div>
+        <div><span>{t("features_tools_num")}</span><strong>{t("features_tools_title")}</strong><p>{t("features_tools_text")}</p></div>
+        <div><span>{t("features_free_num")}</span><strong>{t("features_free_title")}</strong><p>{t("features_free_text")}</p></div>
       </section>
+      {/* 长文区（步骤/指南/FAQ/相关任务）目前仅有中文内容：英文界面下隐藏，待方案 A 全量双语后恢复 */}
+      {locale === "zh" && (
+      <>
       <section className="home-guide" aria-labelledby="how-pixkit-works">
         <div className="guide-heading">
           <span>HOW IT WORKS</span>
-          <h2 id="how-pixkit-works">三步完成批量图片处理</h2>
-          <p>所有步骤都在当前浏览器完成，原图不会被修改。</p>
+          <h2 id="how-pixkit-works">{t("guide_heading")}</h2>
+          <p>{t("guide_sub")}</p>
         </div>
         <div className="guide-grid">
           {activeContent.steps.map((item, index) => (
@@ -1228,8 +1231,8 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
           ))}
         </div>
         <div className="format-strip">
-          <strong>主要输出格式</strong><span>JPG</span><span>PNG</span><span>WebP</span><span>AVIF</span>
-          <small>另可导入 BMP、ICO、SVG 并转换</small>
+          <strong>{t("format_strip_title")}</strong><span>JPG</span><span>PNG</span><span>WebP</span><span>AVIF</span>
+          <small>{t("format_strip_note")}</small>
         </div>
       </section>
       <section className="seo-content" aria-labelledby="about-pixkit">
@@ -1264,19 +1267,21 @@ export function ImageWorkbench({ initialTool = "format", initialFormat = "image/
           </div>
         </nav>
       </section>
+      </>
+      )}
       <footer>
-        <span>Pixkit · <a href="https://aixuno.com">AIXUNO 旗下图片工具</a></span>
-        <nav aria-label="Aixuno 站群">
-          <a href="https://aixuno.com/">Markdown 转换</a>
-          <a href="https://compress.aixuno.com/">文件压缩</a>
-          <a href="https://pdf.aixuno.com/">PDF 工具</a>
-          <a href="https://bg.aixuno.com/">AI 抠图</a>
-          <a href="https://scan.aixuno.com/">文档扫描</a>
-          <a href="https://restore.aixuno.com/">老照片修复</a>
-          <a href="https://watermark.aixuno.com/">视频去水印</a>
+        <span>Pixkit · <a href="https://aixuno.com">{t("footer_brand")}</a></span>
+        <nav aria-label={t("footer_net_aria")}>
+          <a href="https://aixuno.com/">{t("net_md")}</a>
+          <a href="https://compress.aixuno.com/">{t("net_zip")}</a>
+          <a href="https://pdf.aixuno.com/">{t("net_pdf")}</a>
+          <a href="https://bg.aixuno.com/">{t("net_bg")}</a>
+          <a href="https://scan.aixuno.com/">{t("net_scan")}</a>
+          <a href="https://restore.aixuno.com/">{t("net_restore")}</a>
+          <a href="https://watermark.aixuno.com/">{t("net_watermark")}</a>
         </nav>
-        <nav aria-label="站点信息"><a href="/guides">教程</a><a href="/about">关于</a><a href="/contact">联系</a><a href="/privacy">隐私</a><a href="/terms">条款</a><a href="/disclaimer">免责声明</a><a href="/changelog">更新记录</a></nav>
-        <span>隐私优先 · 浏览器本地处理</span>
+        <nav aria-label={t("footer_info_aria")}><a href="/guides">{t("footer_guides")}</a><a href="/about">{t("footer_about")}</a><a href="/contact">{t("footer_contact")}</a><a href="/privacy">{t("footer_privacy")}</a><a href="/terms">{t("footer_terms")}</a><a href="/disclaimer">{t("footer_disclaimer")}</a><a href="/changelog">{t("footer_changelog")}</a></nav>
+        <span>{t("footer_tagline")}</span>
       </footer>
       <script
         type="application/ld+json"
